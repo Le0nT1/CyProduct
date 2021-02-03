@@ -61,7 +61,7 @@ public class cyProductMain {
 			IAtomContainer oneMole = inputMoles.getAtomContainer(i);
 //			if(!oneMole.getProperty("cdk:Title").equals("(R)-mianserin_ 8-hydroxy")) continue;
 //			if(!oneMole.getProperty("MolName").equals("Monodemethylated_mifepristone")) continue;
-//			if(!oneMole.getProperty("NAME").equals("Metronidazole")) continue;
+//			if(!oneMole.getProperty("NAME").equals("Benzo[a]pyrene")) continue;
 //			boolean skip = true;
 //			if(oneMole.getProperty("NAME").equals("Ondansetron")){
 //				skip = false;

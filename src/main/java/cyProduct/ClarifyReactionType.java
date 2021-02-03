@@ -306,6 +306,7 @@ public class ClarifyReactionType {
 				//continue;
 			}
 			//Dehydrogenation
+			boolean shrink = false;
 			if(bomList_typeOne.isEmpty() || bomList_typeOne == null) break;
 			bom_typeOne = bomList_typeOne.get(i);
 			String dehydrogenation = findDehydrogenationReaction(bom_typeOne, bomList_typeTwo, oneMole);
@@ -318,12 +319,15 @@ public class ClarifyReactionType {
 				}	
 				bomList_typeOne.remove(bom_typeOne);
 				i = 0;
+				shrink = true;
 				System.out.println("---------------------------------");
+				if(bomList_typeOne.isEmpty() || bomList_typeOne == null) break;
 				//continue;
 			}
 			//EpOxidation
 			if(bomList_typeOne.isEmpty() || bomList_typeOne == null) break;
 			bom_typeOne = bomList_typeOne.get(i);
+//			System.out.println(UniqueIDFunctionSet.getUniqID(bom_typeOne.get(0)) + ";" + UniqueIDFunctionSet.getUniqID(bom_typeOne.get(1)));
 			String epOxidation = findEpOxidationReaction(bom_typeOne, bomList_typeTwo, oneMole);
 			if(epOxidation != null){			
 				try{
@@ -333,10 +337,13 @@ public class ClarifyReactionType {
 					//Do nothing, but still remove that BoM
 				}	
 				bomList_typeOne.remove(bom_typeOne);
-				i = 0;
+				//i = i-1;
+				shrink = true;
 				System.out.println("---------------------------------");
+				if(bomList_typeOne.isEmpty() || bomList_typeOne == null) break;
 				//continue;
 			}
+			if(shrink) i = i - 1;
 
 		}
 		//<i,H> bond changed type of Reactions. Here is Hydroxylation reaction
