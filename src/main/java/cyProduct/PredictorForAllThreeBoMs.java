@@ -103,27 +103,42 @@ public class PredictorForAllThreeBoMs {
 			IAtomContainer oneMole = molecules.getAtomContainer(moleIdx);
 			if(MoleculeExplorer.isInvalidCandidate(oneMole)){
 				//throw new Exception("The molecule " + (moleIdx + 1) + "is not valid");
-				System.out.println("The molecule " + (moleIdx + 1) + "is not valid, so it is skipped");
+				//System.out.println("The molecule " + (moleIdx + 1) + "is not valid, so it is skipped");
 				continue;
 			}
 			ArrayList<String> resultStringList = new ArrayList<>();
 			String name = getMoleName(oneMole).replace(",", "_");
-			System.out.println(name);
+			//System.out.println(name);
 			ArrayList<String> tempData;
 			Instances data;
-			if(type == 1){
+			long start_time = System.currentTimeMillis();
+			long end_feature_time = System.currentTimeMillis();
+			long end_instance_time = System.currentTimeMillis();
+			if(type == 1){				
 				tempData = this.sts.generateTypeOneBondFeatures_OneMole(oneMole,depth_neighborAtomType, depth_neighborAtomDescriptor);
+				end_feature_time = System.currentTimeMillis();
+				//System.out.println("type One feature time: " + (end_feature_time - start_time));
 				data = this.sts.generateTypeOneBondInstances_OneMole(oneMole, tempData);
+				end_instance_time = System.currentTimeMillis();
+				//System.out.println("type One instance time: " + (end_instance_time - end_feature_time));
 			}
 			else if(type == 2){
 				CreateTypeTwoThreeInstances twoThree = new CreateTypeTwoThreeInstances(this.cyp, this.attributes, 4);
-				tempData = twoThree.generateTypeTwoAtomBasedFeatures(oneMole,4, false);
-				data = twoThree.generateTypeTwoInstances_OneMole(oneMole,tempData,4);
+				tempData = twoThree.generateTypeTwoAtomBasedFeatures(oneMole,4, false);				
+				end_feature_time = System.currentTimeMillis();
+				//System.out.println("type Two feature time: " + (end_feature_time - end_instance_time));				
+				data = twoThree.generateTypeTwoInstances_OneMole(oneMole,tempData,4);				
+				end_instance_time = System.currentTimeMillis();
+				//System.out.println("type One instance time: " + (end_instance_time - end_feature_time));
 			}
 			else{
 				CreateTypeTwoThreeInstances twoThree = new CreateTypeTwoThreeInstances(this.cyp, this.attributes, 4);
 				tempData = twoThree.generateTypeThreeAtomBasedFeatures(oneMole,4, false);
+				//end_feature_time = System.currentTimeMillis();
+				//System.out.println("type Three feature time: " + (end_feature_time - end_instance_time));	
 				data = twoThree.generateTypeTwoInstances_OneMole(oneMole,tempData,4);
+				//end_instance_time = System.currentTimeMillis();
+				//System.out.println("type Three instance time: " + (end_instance_time - end_feature_time));
 			}
 			Double[] probPos = new Double[data.numInstances()];
 			for(int i = 0; i<data.numInstances(); i++){
@@ -147,7 +162,7 @@ public class PredictorForAllThreeBoMs {
 			}
 			MoleResultPair oneResultPair = new MoleResultPair(oneMole, resultStringList);
 			predictedResultList.add(oneResultPair);
-			System.out.println("Molecule " + (moleIdx+1) + " has been processed.");
+			//System.out.println("Molecule " + (moleIdx+1) + " has been processed.");
 		}
 		return predictedResultList;
 		

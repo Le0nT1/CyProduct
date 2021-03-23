@@ -110,7 +110,7 @@ public class GenerateMetabolite {
 //		UniqueIDFunctionSet.assignUniqueID(oneMole);
 //		for(int i = 0; i < oneMole.getAtomCount(); i++){
 //			if(oneMole.getAtom(i).getSymbol().equals("P")){
-//				System.out.println((Integer) oneMole.getAtom(i).getProperty("UniqueID"));
+//				//System.out.println((Integer) oneMole.getAtom(i).getProperty("UniqueID"));
 //			}
 //		}
 //		generateEpOxidationMetabolite(oneMole.getAtom(3), oneMole.getAtom(4), oneMole, 0);//1,2; 6,9
@@ -204,7 +204,7 @@ public class GenerateMetabolite {
 				
 			}
 		}
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String hydroxylation_SMIKRS = "[*:1][H]>>[H][#8]-[*:1]";//"[#6;A:1][H]>>[H][#8][#6;A:1]";		
 		
@@ -213,7 +213,7 @@ public class GenerateMetabolite {
 		if(changedPart.getAtomContainerCount() > 1) throw new Exception("There are more than one Hydroxyl metabolite for the same reactive site within the molecule.");		
 		IAtomContainerSet resultSet = ConnectivityChecker.partitionIntoMolecules(changedPart.getAtomContainer(0));
 		if(resultSet.getAtomContainerCount() > 1) throw new Exception("There are more than one Hydroxyl metabolite for the same reactive site within the molecule after partition.");		
-		System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));		
+		//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));		
 		IAtomContainer metabolite = mergeFragments(copy, changedPart.getAtomContainer(0));
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 		properties.put("ReactionType", "Hydroxylation");
@@ -254,7 +254,7 @@ public class GenerateMetabolite {
 		int a = targetCopy.getValency();
 		double b = copy.getBondOrderSum(targetCopy);
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String snp_Oxidation_SMIKRS = "[*:1]>>O=[*:1]";		
 		if(targetCopy.getSymbol().equals("N")){
@@ -272,7 +272,7 @@ public class GenerateMetabolite {
 		//if(changedPart.getAtomContainerCount() > 1) throw new Exception("There are more than one SNP-Oxidation metabolite for the same reactive site within the molecule.");		
 		IAtomContainerSet resultSet = ConnectivityChecker.partitionIntoMolecules(changedPart.getAtomContainer(0));
 		//if(resultSet.getAtomContainerCount() > 1) throw new Exception("There are more than one SNP-Oxidation metabolite for the same reactive site within the molecule after partition.");		
-		System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));		
+		//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));		
 		IAtomContainer metabolite = mergeFragments(copy, changedPart.getAtomContainer(0));
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 		properties.put("ReactionType", "SNP-Oxidation");
@@ -301,8 +301,8 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(copy);
 		//IBond targetBond = copy.getBond(leftCopy, rightCopy);
-		System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
-		System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
+		//System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
+		//System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
 		leftCopy.setProperty("ReactiveSite", "Oxidation");
 		rightCopy.setProperty("ReactiveSite", "Oxidation");
 		
@@ -316,7 +316,7 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String hydroxylation_SMIKRS = "[H][#8:2][#6;A:1]>>[#6;A:1]=[O:2]";		
 		
@@ -325,7 +325,7 @@ public class GenerateMetabolite {
 		if(changedPart.getAtomContainerCount() > 1) throw new Exception("There are more than one Oxidized metabolite for the same reactive site within the molecule.");		
 		IAtomContainerSet resultSet = ConnectivityChecker.partitionIntoMolecules(changedPart.getAtomContainer(0));
 		if(resultSet.getAtomContainerCount() > 1) throw new Exception("There are more than one Oxidized metabolite for the same reactive site within the molecule after partition.");		
-		System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));		
+		//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));		
 		IAtomContainer metabolite = mergeFragments_EpOxidation(copy, changedPart.getAtomContainer(0));
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 		properties.put("ReactionType", "Oxidation");
@@ -370,7 +370,7 @@ public class GenerateMetabolite {
 		fragmentStructure.add(generateFragmentWithExplicitHydrogenForReactiveAtom(fragmentStructure.getAtom(0), copy));
 		fragmentStructure.add(generateFragmentWithExplicitHydrogenForReactiveAtom(fragmentStructure.getAtom(1), copy));
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String dealkyltion_SMIRKS;
 		if(dealkylationType.equals("O-Dealkylation")) dealkyltion_SMIRKS = "[H][#6:2][#8;A:1]>>[#8;A:1][H].[#6:2]=O";//[H][#6:2](-*)-[#8:1]-*>>[#8:1]-*.*-[#6:2]=O";
@@ -390,12 +390,12 @@ public class GenerateMetabolite {
 		 */
 		copy.removeBond(leftCopy, rightCopy);
 		IAtomContainerSet subFragments = ConnectivityChecker.partitionIntoMolecules(copy);
-		System.out.println("SMILES of the check part: " + sg.create(copy));	
+		//System.out.println("SMILES of the check part: " + sg.create(copy));	
 		//The part contains "O" will be at index = 0. There should be only two subFragment for Dealkylation reaction.
 		ArrayList<IAtomContainer> reorderedFragments = reorderFragments(subFragments);
 		ArrayList<IAtomContainer> reorderedResultSet = reorderFragments(resultSet);
 		for(int i = 0; i < reorderedResultSet.size(); i++){
-			System.out.println("SMILES of the changed part: " + sg.create(reorderedResultSet.get(i)));	
+			//System.out.println("SMILES of the changed part: " + sg.create(reorderedResultSet.get(i)));	
 			IAtomContainer metabolite = mergeFragments(reorderedFragments.get(i), reorderedResultSet.get(i));			
 			Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 			properties.put("ReactionType", dealkylationType);
@@ -438,12 +438,12 @@ public class GenerateMetabolite {
 					if(!oringinalSmile.contains("+") && !oringinalSmile.contains("-") && 
 						!smile.contains("+") && !smile.contains("-")){
 						copy = oneResonaceStruct;
-						System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
+						//System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
 						break;
 					}
 					else{
 						copy = oneResonaceStruct;
-						System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
+						//System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
 						break;
 					}
 				}
@@ -452,8 +452,8 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(copy);
 		//IBond targetBond = copy.getBond(leftCopy, rightCopy);
-		System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
-		System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
+		//System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
+		//System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
 		leftCopy.setProperty("ReactiveSite", "EpOxidation");
 		rightCopy.setProperty("ReactiveSite", "EpOxidation");
 		
@@ -471,7 +471,7 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String epOxidaiton_SMIRS = "[*:1]=[*:2]>>[#8]-1-[*:1]-[*:2]-1";//"[#6;A:2]=[#6;A:1]>>[#6;A:1]1[#6;A:2][#8]1";
 	
@@ -485,7 +485,7 @@ public class GenerateMetabolite {
 		 * We remove the bond <leftCopy, rightCopy> within the molecule 
 		 */
 		copy.removeBond(leftCopy, rightCopy);
-		System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
+		//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
 		ArrayList<IAtom>  removedAtoms = MergeFragments.getRemovedAtomList(fragmentStructure, resultSet.getAtomContainer(0));
 		IAtomContainer metabolite = MergeFragments.mergeFragmentsForRearrangementReaction(copy, resultSet.getAtomContainer(0), removedAtoms);//mergeFragments_EpOxidation(copy, resultSet.getAtomContainer(0));	
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
@@ -506,7 +506,7 @@ public class GenerateMetabolite {
 	 */
 	public static IAtomContainerSet generateNitrosoReductionMetabolite(ArrayList<ArrayList<IAtom>> bom_List, IAtomContainer oneMole) throws Exception{
 		if(bom_List == null || bom_List.size() != 2){
-			System.out.println("The input BoMs for the nitrosoReductionReaction doesn't satisfy the corresponding conditions.");
+			//System.out.println("The input BoMs for the nitrosoReductionReaction doesn't satisfy the corresponding conditions.");
 			return null;
 		}
 		IAtomContainer copy = oneMole.clone();
@@ -547,7 +547,7 @@ public class GenerateMetabolite {
 		fragmentStructure.add(generateFragmentWithExplicitHydrogenForReactiveAtom(copy_atomThree, copy));
 	
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String nitroso_reduction_SMARTS = "[#8;A:3][#7;A+:1]=[#8;A:2]>>[#7;A:1].[#8:2].[#8:3]";
 		//"[H][#8:3][#7;A+:1]=[O:2]>>[#7;A:1].[#8:2].[#8:3]";
@@ -567,7 +567,7 @@ public class GenerateMetabolite {
 			}
 		}
 		if(changedPart_Organic == null) throw new Exception("No organic metabolite was generated for this Nitroso-Reduction reaction");
-		System.out.println("SMILES of the changed part: " + sg.create(changedPart_Organic));	
+		//System.out.println("SMILES of the changed part: " + sg.create(changedPart_Organic));	
 		IAtomContainer metabolite = mergeFragmentsForReductionReaction(copy, changedPart_Organic);
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 		properties.put("ReactionType", "NitrosoReduction");
@@ -592,7 +592,7 @@ public class GenerateMetabolite {
 	 */
 	public static IAtomContainerSet generateOCODealkylationMetabolite(ArrayList<ArrayList<IAtom>> bom_List, IAtomContainer oneMole) throws Exception{
 		if(bom_List == null || bom_List.size() != 2){
-			System.out.println("The input BoMs for the specialDealkylaiton reaction doesn't satisfy the corresponding conditions.");
+			//System.out.println("The input BoMs for the specialDealkylaiton reaction doesn't satisfy the corresponding conditions.");
 			return null;
 		}
 		IAtomContainer copy = oneMole.clone();
@@ -633,7 +633,7 @@ public class GenerateMetabolite {
 		fragmentStructure.add(generateFragmentWithExplicitHydrogenForReactiveAtom(copy_atomThree, copy));
 	
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		String OCO_match_SMIRKS = "[H][#6;A:1]([#8;A:3])[#8;A:2]";
 		boolean matches = MergeFragments.matchSMIRKS(OCO_match_SMIRKS, fragmentStructure);
 		if(!matches) return null;
@@ -657,7 +657,7 @@ public class GenerateMetabolite {
 			if(score < (Double) atom_two.getProperty("Score")) score = atom_two.getProperty("Score");
 			if(score < (Double) atom_three.getProperty("Score")) score = atom_three.getProperty("Score");
 			for(int i = 0; i < resultSet.getAtomContainerCount(); i++){
-				System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(i)));	
+				//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(i)));	
 				IAtomContainer metabolite = resultSet.getAtomContainer(i);		
 				Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 				properties.put("ReactionType", "SepcialDealkyaltion");
@@ -735,7 +735,7 @@ public class GenerateMetabolite {
 			}			
 		}
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String ringRearrangement_SMARTS;
 		ArrayList<String> ringRearrangement_SMARTS_list = new ArrayList<>();
@@ -812,12 +812,12 @@ public class GenerateMetabolite {
 					if(!oringinalSmile.contains("+") && !oringinalSmile.contains("-") && 
 						!smile.contains("+") && !smile.contains("-")){
 						copy = oneResonaceStruct;
-						System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
+						//System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
 						break;
 					}
 					else{
 						copy = oneResonaceStruct;
-						System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
+						//System.out.println("selected resonance struct: " + sg.create(oneResonaceStruct));
 						break;
 					}
 				}
@@ -826,8 +826,8 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(copy);
 		//IBond targetBond = copy.getBond(leftCopy, rightCopy);
-		System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
-		System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
+		//System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
+		//System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
 		leftCopy.setProperty("ReactiveSite", "Dehydrogenation");
 		rightCopy.setProperty("ReactiveSite", "Dehydrogenation");
 		
@@ -845,7 +845,7 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String dehydrogenation_SMIRKS = "[#6:1]-[#6:2]>>[#6:2]=[#6:1]";
 	
@@ -859,7 +859,7 @@ public class GenerateMetabolite {
 		 * We remove the bond <leftCopy, rightCopy> within the molecule 
 		 */
 		copy.removeBond(leftCopy, rightCopy);
-		System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
+		//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
 		ArrayList<IAtom>  removedAtoms = MergeFragments.getRemovedAtomList(fragmentStructure, resultSet.getAtomContainer(0));
 		IAtomContainer metabolite = MergeFragments.mergeFragmentsForRearrangementReaction(copy, resultSet.getAtomContainer(0), removedAtoms);//mergeFragments_EpOxidation(copy, resultSet.getAtomContainer(0));	
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
@@ -966,7 +966,7 @@ public class GenerateMetabolite {
 			}			
 		}
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String specialReactionOne_SMIRKS = "[H][#6:5]1=,:[#6:4][#6:3]=,:[#6:2][#16:1]1>>O=[#6:5]-1-[#16:1]-[#6:2]-[#6:3]=[#6:4]-1";
 		SMIRKSReaction reaction = smrkMan.parse(specialReactionOne_SMIRKS);		
@@ -1083,7 +1083,7 @@ public class GenerateMetabolite {
 			}			
 		}
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String specialReactionTwo_SMIRKS = "[#6:5]1~[#6:4][#6,#7:3]=,:[#6:2][#7:1]1>>O=[#6:2]-1-[#7:1]-[#6:5]~[#6:4]-[#6,#7:3]-1";
 		SMIRKSReaction reaction = smrkMan.parse(specialReactionTwo_SMIRKS);		
@@ -1119,8 +1119,8 @@ public class GenerateMetabolite {
 		IBond targetBond = copy.getBond(leftCopy, rightCopy);			
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(copy);
 		//IBond targetBond = copy.getBond(leftCopy, rightCopy);
-		System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
-		System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
+		//System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
+		//System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
 		leftCopy.setProperty("ReactiveSite", "Desulfurization");
 		rightCopy.setProperty("ReactiveSite", "Desulfurization");
 		
@@ -1138,7 +1138,7 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String deSulfurization_SMIRKS = "S=[#6,#15:1]>>O=[#6,#15:1]";
 	
@@ -1152,7 +1152,7 @@ public class GenerateMetabolite {
 		 * We remove the bond <leftCopy, rightCopy> within the molecule 
 		 */
 		copy.removeBond(leftCopy, rightCopy);
-		System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
+		//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
 		ArrayList<IAtom>  removedAtoms = MergeFragments.getRemovedAtomList(fragmentStructure, resultSet.getAtomContainer(0));
 		IAtomContainer metabolite = MergeFragments.mergeFragmentsForRearrangementReaction(copy, resultSet.getAtomContainer(0), removedAtoms);//mergeFragments_EpOxidation(copy, resultSet.getAtomContainer(0));	
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
@@ -1178,8 +1178,8 @@ public class GenerateMetabolite {
 		IBond targetBond = copy.getBond(leftCopy, rightCopy);			
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(copy);
 		//IBond targetBond = copy.getBond(leftCopy, rightCopy);
-		System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
-		System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
+		//System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
+		//System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
 		leftCopy.setProperty("ReactiveSite", "Hydrolysis");
 		rightCopy.setProperty("ReactiveSite", "Hydrolysis");
 		
@@ -1197,7 +1197,7 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String deSulfurization_SMIRKS = "[#8:2]-[#16,#7,#15:1]>>[#8:2][H].[#8]-[#16,#7,#15:1]";
 	
@@ -1216,7 +1216,7 @@ public class GenerateMetabolite {
 		ArrayList<IAtomContainer> reorderedFragments = reorderFragments(subFragments);
 		ArrayList<IAtomContainer> reorderedResultSet = reorderFragments(resultSet);
 		for(int i = 0; i < reorderedResultSet.size(); i++){
-			System.out.println("SMILES of the changed part: " + sg.create(reorderedResultSet.get(i)));	
+			//System.out.println("SMILES of the changed part: " + sg.create(reorderedResultSet.get(i)));	
 			IAtomContainer metabolite = mergeFragments(reorderedFragments.get(i), reorderedResultSet.get(i));			
 			Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 			properties.put("ReactionType", "Hydrolysis");
@@ -1243,8 +1243,8 @@ public class GenerateMetabolite {
 		IBond targetBond = copy.getBond(leftCopy, rightCopy);			
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(copy);
 		//IBond targetBond = copy.getBond(leftCopy, rightCopy);
-		System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
-		System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
+		//System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
+		//System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
 		leftCopy.setProperty("ReactiveSite", "Dehalogenation");
 		rightCopy.setProperty("ReactiveSite", "Dehalogenation");
 		
@@ -1262,7 +1262,7 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String deSulfurization_SMIRKS = "[#6:2]-[#9,#17:1]>>[#9,#17:1][H].[#6:2]=O";
 	
@@ -1281,7 +1281,7 @@ public class GenerateMetabolite {
 		ArrayList<IAtomContainer> reorderedFragments = reorderFragments(subFragments);
 		ArrayList<IAtomContainer> reorderedResultSet = reorderFragments(resultSet);
 		for(int i = 0; i < reorderedResultSet.size(); i++){
-			System.out.println("SMILES of the changed part: " + sg.create(reorderedResultSet.get(i)));	
+			//System.out.println("SMILES of the changed part: " + sg.create(reorderedResultSet.get(i)));	
 			IAtomContainer metabolite = mergeFragments(reorderedFragments.get(i), reorderedResultSet.get(i));			
 			Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 			properties.put("ReactionType", "Dehalogenation");
@@ -1308,8 +1308,8 @@ public class GenerateMetabolite {
 		IBond targetBond = copy.getBond(leftCopy, rightCopy);			
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(copy);
 		//IBond targetBond = copy.getBond(leftCopy, rightCopy);
-		System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
-		System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
+		//System.out.println("Indices of the BoM atoms: " + copy.indexOf(leftCopy) + "," + copy.indexOf(rightCopy));
+		//System.out.println("UniqueIDs of the BoM atoms: " + UniqueIDFunctionSet.getUniqID(leftAtom) + "," + UniqueIDFunctionSet.getUniqID(rightAtom));
 		leftCopy.setProperty("ReactiveSite", "Reduction");
 		rightCopy.setProperty("ReactiveSite", "Reduction");
 		
@@ -1327,7 +1327,7 @@ public class GenerateMetabolite {
 		
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(fragmentStructure);
 		
-		System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
+		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		
 		String reduction_SMIRKS = "O=[#15,#16:1]>>[#15,#16:1]";			
 		SMIRKSReaction reaction = smrkMan.parse(reduction_SMIRKS);
@@ -1345,7 +1345,7 @@ public class GenerateMetabolite {
 		 * We remove the bond <leftCopy, rightCopy> within the molecule 
 		 */
 		copy.removeBond(leftCopy, rightCopy);
-		System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
+		//System.out.println("SMILES of the changed part: " + sg.create(resultSet.getAtomContainer(0)));	
 		ArrayList<IAtom>  removedAtoms = MergeFragments.getRemovedAtomList(fragmentStructure, resultSet.getAtomContainer(0));
 		IAtomContainer metabolite = MergeFragments.mergeFragmentsForRearrangementReaction(copy, resultSet.getAtomContainer(0), removedAtoms);//mergeFragments_EpOxidation(copy, resultSet.getAtomContainer(0));	
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
@@ -1430,7 +1430,7 @@ public class GenerateMetabolite {
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(SilentChemObjectBuilder.getInstance());
 		adder.addImplicitHydrogens(fragmentStructure);
 		AtomContainerManipulator.suppressHydrogens(fragmentStructure);
-		System.out.println(sg.create(fragmentStructure));
+		//System.out.println(sg.create(fragmentStructure));
 		return fragmentStructure;
 	}
 	/**
@@ -1504,7 +1504,7 @@ public class GenerateMetabolite {
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(SilentChemObjectBuilder.getInstance());
 		adder.addImplicitHydrogens(fragmentStructure);
 		AtomContainerManipulator.suppressHydrogens(fragmentStructure);
-		System.out.println(sg.create(fragmentStructure));
+		//System.out.println(sg.create(fragmentStructure));
 		return fragmentStructure;
 		
 	}
@@ -1596,7 +1596,7 @@ public class GenerateMetabolite {
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(SilentChemObjectBuilder.getInstance());
 		adder.addImplicitHydrogens(fragmentStructure);
 		AtomContainerManipulator.suppressHydrogens(fragmentStructure);
-		System.out.println(sg.create(fragmentStructure));
+		//System.out.println(sg.create(fragmentStructure));
 		return fragmentStructure;
 	}
 	
@@ -1707,7 +1707,7 @@ public class GenerateMetabolite {
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(SilentChemObjectBuilder.getInstance());
 		adder.addImplicitHydrogens(fragmentStructure);
 		AtomContainerManipulator.suppressHydrogens(fragmentStructure);
-		System.out.println(sg.create(fragmentStructure));
+		//System.out.println(sg.create(fragmentStructure));
 		return fragmentStructure;
 	}
 	/**
@@ -1826,12 +1826,12 @@ public class GenerateMetabolite {
 			throw new Exception("Failed to find the largestAromaticRing in the molecule");
 		}
 		else{
-			System.out.println("Largest Ring to Check: " + sg.create(largestAromaticRing));
-			System.out.println("Indices of atoms within the largest ring: ") ;
+			//System.out.println("Largest Ring to Check: " + sg.create(largestAromaticRing));
+			//System.out.println("Indices of atoms within the largest ring: ") ;
 			for(int i = 0; i < largestAromaticRing.getBondCount(); i++){
-				System.out.println(largestAromaticRing.getBond(i).getAtom(0).getProperty("UniqueID") + "," + largestAromaticRing.getBond(i).getAtom(1).getProperty("UniqueID")) ;
+				//System.out.println(largestAromaticRing.getBond(i).getAtom(0).getProperty("UniqueID") + "," + largestAromaticRing.getBond(i).getAtom(1).getProperty("UniqueID")) ;
 			}
-			System.out.println() ;
+			//System.out.println() ;
 			IBond targetBond = largestAromaticRing.getBond(leftAtom, rightAtom);
 			
 			if(targetBond.getOrder() == IBond.Order.SINGLE){
@@ -1842,7 +1842,7 @@ public class GenerateMetabolite {
 					IAtomContainer oneSmallRing = reOrderedCandidateList.get(reOrderedCandidateList.size() - 1 - t);
 					AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(oneSmallRing);
 					if(!checkAromatic(oneSmallRing, oneMole)){
-						System.out.println("Invalid Ring to Check: " + sg.create(oneSmallRing));
+						//System.out.println("Invalid Ring to Check: " + sg.create(oneSmallRing));
 						continue;
 					}
 					
@@ -1855,7 +1855,7 @@ public class GenerateMetabolite {
 						if(!largestAromaticRing.contains(oneSmallRing.getBond(j))) largestAromaticRing.addBond(oneSmallRing.getBond(j));
 					}
 				}
- 				System.out.println("ring of interest: " + sg.create(largestAromaticRing));
+ 				//System.out.println("ring of interest: " + sg.create(largestAromaticRing));
  				//Add the bonds that are shared by more than one rings into the shardedBondList. 
  				for(int i = 0; i < largestAromaticRing.getBondCount(); i++){
  					boolean isSharedBond = false;
@@ -1866,10 +1866,10 @@ public class GenerateMetabolite {
  					}
  					if(isSharedBond){
  						shardedBondList.add(oneBond);
- 						System.out.println("Bond: " + oneBond.getAtom(0).getProperty("UniqueID") + " , " + oneBond.getAtom(1).getProperty("UniqueID"));
+ 						//System.out.println("Bond: " + oneBond.getAtom(0).getProperty("UniqueID") + " , " + oneBond.getAtom(1).getProperty("UniqueID"));
  					}
  				}
- 				//System.out.println("Refined Structure: " + sg.create(oneMole));
+ 				////System.out.println("Refined Structure: " + sg.create(oneMole));
 				//Add the bonds that are shared by more than one Rings
 				for(int i = 0; i < shardedBondList.size(); i++){
 					IBond oneBond = shardedBondList.get(i);
@@ -1894,16 +1894,16 @@ public class GenerateMetabolite {
 					}
 				}
 				AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(largestAromaticRing);
-				System.out.println("Ring to Check: " + sg.create(largestAromaticRing));
-				//System.out.println("ring of interest: " + sg.create(largestAromaticRing));
+				//System.out.println("Ring to Check: " + sg.create(largestAromaticRing));
+				////System.out.println("ring of interest: " + sg.create(largestAromaticRing));
 								
 			}
 			
 		}
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(oneMole);
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(largestAromaticRing);
-		System.out.println("Refined ring: " + sg.create(largestAromaticRing));
-		System.out.println("Refined Structure: " + sg.create(oneMole));
+		//System.out.println("Refined ring: " + sg.create(largestAromaticRing));
+		//System.out.println("Refined Structure: " + sg.create(oneMole));
 		
 		SmilesParser sp = new SmilesParser(SilentChemObjectBuilder.getInstance());
 		return sp.parseSmiles(sg.create(oneMole));
@@ -1988,7 +1988,7 @@ public class GenerateMetabolite {
 			for(int i = 0; i < atoms_toCheck.size(); i++){
 				IAtom checkAtom = atoms_toCheck.get(i);
 				if(!checkedAtomList.contains(checkAtom)){
-					//System.out.println(atom_left.getBondOrderSum());
+					////System.out.println(atom_left.getBondOrderSum());
 					IBond bond_candidate = largestAromaticRing.getBond(atom_left, checkAtom);
 					//If atom_left has two DOUBLE bonds connected. Note that the current largestAromaticRing doesn't contain bonds shared by multiple rings.
 					if(computeBondOrderSum(atom_left, largestAromaticRing)>=4){						
@@ -2007,7 +2007,7 @@ public class GenerateMetabolite {
 					//Otherwise set terminate_left to true and break  the while loop										
 					break;
 				}
-				System.out.println("Alter Ring: " + sg.create(largestAromaticRing));
+				//System.out.println("Alter Ring: " + sg.create(largestAromaticRing));
 			}			
 		}
 		checkedAtomList = new ArrayList<>();

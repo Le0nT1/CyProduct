@@ -296,7 +296,7 @@ public class GenerateAtomFeatures_new {
 		
 //		DescriptorValue cov = covR.calculate(oneAtom, molecule);
 //		atomicFeatures[9] = cov.getValue().toString();
-		AtomContainerManipulator.suppressHydrogens(molecule);
+		AtomContainerManipulator.suppressHydrogens(molecule);		
 		return atomicFeatures;
 	}
 	

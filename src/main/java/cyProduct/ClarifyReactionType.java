@@ -80,7 +80,7 @@ public class ClarifyReactionType {
 				//Do nothing, but still remove that BoM
 			}
 			bomList_typeOne.removeAll(specialTypeOneReactionsBoMs);
-			System.out.println("---------------------------------");
+			////System.out.println("---------------------------------");
 		}
 		//2. NitrosoReduction
 		specialTypeOneReactionsBoMs = findNitrosoReductionReactionType(bomList_typeOne);
@@ -96,7 +96,7 @@ public class ClarifyReactionType {
 				//Do nothing, but still remove that BoM
 			}
 			bomList_typeOne.removeAll(specialTypeOneReactionsBoMs);
-			System.out.println("---------------------------------");
+			////System.out.println("---------------------------------");
 		}
 		//10. Special reaction one
 		specialTypeOneReactionsBoMs = findSpecialReactionOneType(bomList_typeOne, oneMole);
@@ -131,7 +131,7 @@ public class ClarifyReactionType {
 				ArrayList<IAtom> oneBoM =  specialTypeOneReactionsBoMs.get(i);
 				IAtom atom_left = UniqueIDFunctionSet.getAtomByUniqueID(UniqueIDFunctionSet.getUniqID(oneBoM.get(0)), oneMole);
 				IAtom atom_right = UniqueIDFunctionSet.getAtomByUniqueID(UniqueIDFunctionSet.getUniqID(oneBoM.get(1)), oneMole);
-				System.out.println(oneMole.indexOf(atom_left) + ","  + oneMole.indexOf(atom_right));
+				//System.out.println(oneMole.indexOf(atom_left) + ","  + oneMole.indexOf(atom_right));
 			}
 			try{
 				IAtomContainerSet metabolites = GenerateMetabolite.generateSpecialReactionTwoMetabolite(specialTypeOneReactionsBoMs, oneMole);
@@ -183,7 +183,7 @@ public class ClarifyReactionType {
 				//Do nothing, but still remove that BoM
 			}	
 			bomList_typeOne.removeAll(specialTypeOneReactionsBoMs);
-			System.out.println("---------------------------------");
+			//System.out.println("---------------------------------");
 			specialTypeOneReactionsBoMs = findOCODealkylationReactionType(bomList_typeOne, bomList_typeTwo, oneMole);
 			
 		}
@@ -197,7 +197,7 @@ public class ClarifyReactionType {
 				//Do nothing, but still remove that BoM
 			}	
 			bomList_typeOne.removeAll(specialTypeOneReactionsBoMs);
-			System.out.println("---------------------------------");
+			//System.out.println("---------------------------------");
 			specialTypeOneReactionsBoMs = findDesulfurizationReactionType(bomList_typeOne, oneMole);
 		}
 		//13. Hydrolysis
@@ -210,7 +210,7 @@ public class ClarifyReactionType {
 				//Do nothing, but still remove that BoM
 			}	
 			bomList_typeOne.removeAll(specialTypeOneReactionsBoMs);
-			System.out.println("---------------------------------");
+			//System.out.println("---------------------------------");
 			specialTypeOneReactionsBoMs = findHydrolysisReactionType(bomList_typeOne, oneMole);
 		}
 		//14. Dehalogenation
@@ -237,7 +237,7 @@ public class ClarifyReactionType {
 				//Do nothing, but still remove that BoM
 			}	
 			bomList_typeOne.removeAll(specialTypeOneReactionsBoMs);
-			System.out.println("---------------------------------");
+			//System.out.println("---------------------------------");
 			specialTypeOneReactionsBoMs = findDehalogenReactionType(bomList_typeOne, oneMole);
 		}
 		//15. Reduction
@@ -250,7 +250,7 @@ public class ClarifyReactionType {
 				//Do nothing, but still remove that BoM
 			}	
 			bomList_typeOne.removeAll(specialTypeOneReactionsBoMs);
-			System.out.println("---------------------------------");
+			//System.out.println("---------------------------------");
 			specialTypeOneReactionsBoMs = findReductionReactionType(bomList_typeOne, oneMole);
 		}
 		
@@ -270,7 +270,7 @@ public class ClarifyReactionType {
 				}	
 				bomList_typeOne.remove(bom_typeOne);
 				i = 0;
-				System.out.println("---------------------------------");
+				//System.out.println("---------------------------------");
 				if(bomList_typeOne.isEmpty()) break;
 				bom_typeOne = bomList_typeOne.get(i);
 				carbonOxygenOxidation = findCarbonOxygenOxidationReaction(bom_typeOne, bomList_typeTwo, oneMole);
@@ -299,7 +299,7 @@ public class ClarifyReactionType {
 				}
 				bomList_typeOne.remove(bom_typeOne);
 				i = 0;
-				System.out.println("---------------------------------");
+				//System.out.println("---------------------------------");
 				if(bomList_typeOne.isEmpty()) break;
 				bom_typeOne = bomList_typeOne.get(i);
 				dealkylation = findDealkyaltionReactionType(bom_typeOne, bomList_typeTwo, oneMole);
@@ -320,14 +320,14 @@ public class ClarifyReactionType {
 				bomList_typeOne.remove(bom_typeOne);
 				i = 0;
 				shrink = true;
-				System.out.println("---------------------------------");
+				//System.out.println("---------------------------------");
 				if(bomList_typeOne.isEmpty() || bomList_typeOne == null) break;
 				//continue;
 			}
 			//EpOxidation
 			if(bomList_typeOne.isEmpty() || bomList_typeOne == null) break;
 			bom_typeOne = bomList_typeOne.get(i);
-//			System.out.println(UniqueIDFunctionSet.getUniqID(bom_typeOne.get(0)) + ";" + UniqueIDFunctionSet.getUniqID(bom_typeOne.get(1)));
+//			//System.out.println(UniqueIDFunctionSet.getUniqID(bom_typeOne.get(0)) + ";" + UniqueIDFunctionSet.getUniqID(bom_typeOne.get(1)));
 			String epOxidation = findEpOxidationReaction(bom_typeOne, bomList_typeTwo, oneMole);
 			if(epOxidation != null){			
 				try{
@@ -339,7 +339,7 @@ public class ClarifyReactionType {
 				bomList_typeOne.remove(bom_typeOne);
 				//i = i-1;
 				shrink = true;
-				System.out.println("---------------------------------");
+				//System.out.println("---------------------------------");
 				if(bomList_typeOne.isEmpty() || bomList_typeOne == null) break;
 				//continue;
 			}
@@ -439,7 +439,7 @@ public class ClarifyReactionType {
 			}
 		}
 		if(!valid){
-			System.out.println("The input BoM doesn't satify the Carbon-Oxygen reaction");
+			//System.out.println("The input BoM doesn't satify the Carbon-Oxygen reaction");
 			return null;
 		}
 		else return "CarbonOxygenOxidation";
@@ -452,7 +452,7 @@ public class ClarifyReactionType {
 	 */
 	public static String findSNPOxidationReaction(IAtom bom_typeThree) throws Exception{
 		if(!bom_typeThree.getSymbol().equalsIgnoreCase("S") &&!bom_typeThree.getSymbol().equalsIgnoreCase("N") && !bom_typeThree.getSymbol().equalsIgnoreCase("P")){
-			System.out.println("The input typeThree BoM doesn't satisfy the SNP-Oxidation");
+			//System.out.println("The input typeThree BoM doesn't satisfy the SNP-Oxidation");
 			return null;
 		}
 		else return "SNP-Oxidation";
@@ -501,9 +501,9 @@ public class ClarifyReactionType {
 		if(bom_typeOne.size() != 2) throw new Exception("The number of atoms doesn't equal to 2. It must be 2 to match TypeOne BoM");
 		IAtom atomToCheck = null;
 		if(bom_typeOne.get(0).getSymbol().equalsIgnoreCase("C") && bom_typeOne.get(1).getSymbol().equalsIgnoreCase("C")){
-			System.out.println("BoM: " + "<" + 
-							    UniqueIDFunctionSet.getUniqID(bom_typeOne.get(0)) + ";" + UniqueIDFunctionSet.getUniqID(bom_typeOne.get(1)) + ">" + 
-								"is not Dealkyaltion reaction");
+			//System.out.println("BoM: " + "<" + 
+			//				    UniqueIDFunctionSet.getUniqID(bom_typeOne.get(0)) + ";" + UniqueIDFunctionSet.getUniqID(bom_typeOne.get(1)) + ">" + 
+			//					"is not Dealkyaltion reaction");
 			return null;
 		}
 		IAtom cors_Atom_One = UniqueIDFunctionSet.getAtomByUniqueID(UniqueIDFunctionSet.getUniqID(bom_typeOne.get(0)), oneMole);
@@ -651,7 +651,7 @@ public class ClarifyReactionType {
 				}			
 			}
 			if(count == 3){
-				System.out.println("Special reaction one  is classifed: S-C=C => S-C(=O)-S (part of the reaction) and in  a ring");
+				//System.out.println("Special reaction one  is classifed: S-C=C => S-C(=O)-S (part of the reaction) and in  a ring");
 				return result;
 			}
 		}
@@ -693,7 +693,7 @@ public class ClarifyReactionType {
 					count++;
 				}			
 			}
-			System.out.println("Special reaction one  is classifed: S-C=C => S-C(=O)-S (part of the reaction) and in  a ring");
+			//System.out.println("Special reaction one  is classifed: S-C=C => S-C(=O)-S (part of the reaction) and in  a ring");
 			return result;
 			
 		}

@@ -100,10 +100,11 @@ public class MoleculesToInstances {
 			 */
 			IBond oneBond = molecule.getBond(i);
 			String bomLabels= realBoMLabels(boms, molecule, oneBond.getAtom(0), oneBond.getAtom(1));
-			String currentBondAtomType = GenerateBondFeatures_TypeOne.generateCurrentBondAtomType(molecule, oneBond);			
+			String currentBondAtomType = GenerateBondFeatures_TypeOne.generateCurrentBondAtomType(molecule, oneBond);
+			
 			String currentBondFP = GenerateBondFeatures_TypeOne.generateBondFingeprint(molecule, oneBond);
 			String currentBondDescriptor = GenerateBondFeatures_TypeOne.generateCurrentBondAtomDescriptor(molecule, oneBond);
-			
+
 			String neighborAtomType = GenerateNeighborFeatures_TypeOne.generateNeighborAtomType_upToDepth(molecule, oneBond, depth_neighborAtomType);
 			String neighborAtomDescriptor = GenerateNeighborFeatures_TypeOne.generateNeighborAtomDescriptor(molecule, oneBond, depth_neighborAtomDescriptor);
 			

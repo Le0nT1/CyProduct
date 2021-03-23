@@ -235,12 +235,13 @@ public class CreateTypeTwoThreeInstances {
 	}
 	
 	public ArrayList<String> generateTypeTwoAtomBasedFeatures(IAtomContainer molecule, int depth, boolean mergedFP) throws Exception {		
+		HashMap<Integer, String> atomFPMap = generateAtomFPMap(molecule);
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
 		aromaticity.apply(molecule);
-		adder.addImplicitHydrogens(molecule);
-		String molecularFeatures = GenerateMolecularFeatures_new.generateMolecularFeatures_new(molecule);			
+		adder.addImplicitHydrogens(molecule);		
+		String molecularFeatures = GenerateMolecularFeatures_new.generateMolecularFeatures_new(molecule);
 		ArrayList<String> allBonds = new ArrayList<String>();
 		String moleName = (String) molecule.getProperties().get("cdk:Title");
 		if(moleName==null){
@@ -281,13 +282,19 @@ public class CreateTypeTwoThreeInstances {
 			String atomEnvironmentDepth_2 = generateEnviromentFeatures(molecule, oneAtom, 2);
 			String atomEnvironmentDepth_3 = generateEnviromentFeatures(molecule, oneAtom, 3);
 			String atomEnvironmentDepth_4 = generateEnviromentFeatures(molecule, oneAtom, 4);
+
 			//Here we use depth as the numClosestAtoms.
 			String atomClosestAtomFP = GenerateAtomFeatures_new.generateClosestAtomsFPs(molecule, oneAtom, depth);
 			String atomClosestAtomType = GenerateAtomFeatures_new.generateClosestAtomsAtomTypes(molecule, oneAtom, depth);
+
 			/**
 			 * generateAtomFingerPrints
 			 */
-			String atomFP = generateAtomFingerPrints(molecule, oneAtom, depth, mergedFP);
+			//long start=System.currentTimeMillis();
+			String atomFP = generateAtomFingerPrints(molecule, oneAtom, depth, mergedFP, atomFPMap);
+			
+			//long end=System.currentTimeMillis();
+			//System.out.println("Time cost for atom features: " + (end - start));
 			
 			String atomFeatures = atomHydrogenCount + "," + atomType_Feature + "," + atomicDescriptorFeaturesString + "," + 
 							      atomEnvironmentDepth_1 + "," + atomEnvironmentDepth_2 + "," + atomEnvironmentDepth_3 + "," + atomEnvironmentDepth_4 + "," + 
@@ -323,6 +330,7 @@ public class CreateTypeTwoThreeInstances {
 	 * @throws IOException
 	 */
 	public ArrayList<String> generateTypeThreeAtomBasedFeatures(IAtomContainer molecule, int depth, boolean mergedFP) throws Exception {		
+		HashMap<Integer, String> atomFPMap = generateAtomFPMap(molecule);
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
@@ -376,7 +384,7 @@ public class CreateTypeTwoThreeInstances {
 			/**
 			 * generateAtomFingerPrints
 			 */
-			String atomFP = generateAtomFingerPrints(molecule, oneAtom, depth, mergedFP);
+			String atomFP = generateAtomFingerPrints(molecule, oneAtom, depth, mergedFP, atomFPMap);
 			
 			String atomFeatures = atomHydrogenCount + "," + atomType_Feature + "," + atomicDescriptorFeaturesString + "," + 
 							      atomEnvironmentDepth_1 + "," + atomEnvironmentDepth_2 + "," + atomEnvironmentDepth_3 + "," + atomEnvironmentDepth_4 + "," + 
@@ -543,20 +551,44 @@ public class CreateTypeTwoThreeInstances {
 		return enviromentFeatures;
 	}
 	/**
-	 * Generate atom fingerprint that satisfies some specific patterns
-	 * @param molecule
-	 * @return
-	 * @throws Exception
+	 * Generate an HashMap<String, String> based on the atom's uniqueID within the molecule
 	 */
-	public String generateAtomFingerPrints(IAtomContainer molecule, IAtom oneAtom, int depth, boolean mergeFP) throws Exception{
-		/**
-		 * Always reset the the molecule before processsing it
-		 */
+	public HashMap<Integer, String> generateAtomFPMap(IAtomContainer molecule) throws Exception{
+		HashMap<Integer, String> resultMap = new HashMap<>();
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
 		aromaticity.apply(molecule);
 		adder.addImplicitHydrogens(molecule);
+		
+		for(int i = 0; i < molecule.getAtomCount(); i++){
+			IAtom oneAtom = molecule.getAtom(i);
+			Integer uniqueID = oneAtom.getProperty("UniqueID");
+			if(!resultMap.containsKey(uniqueID)){
+				String fp = GenerateAtomFeatures_new.generateAtomFingeprint(molecule,oneAtom);
+				resultMap.put(uniqueID, fp);
+			}
+		
+		}
+		return resultMap;
+		
+	}
+	/**
+	 * Generate atom fingerprint that satisfies some specific patterns
+	 * @param molecule
+	 * @return
+	 * @throws Exception
+	 */
+	public String generateAtomFingerPrints(IAtomContainer molecule, IAtom oneAtom, int depth, boolean mergeFP, HashMap<Integer, String> resultMap) throws Exception{
+		/**
+		 * Always reset the the molecule before processsing it
+		 */
+//		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
+//		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
+//		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
+//		aromaticity.apply(molecule);
+//		adder.addImplicitHydrogens(molecule);
+		
 		//Depth = 0 --> current; Depth >=1, neighbors at specific depth
 		//String[] resultFP = new String[(depth+1)*GeneratePatterns.queriesList.size()];
 		//String[] resultFP = new String[GeneratePatterns.queriesList.size() + (depth+1) * FingerPrintQueries_new.newQueriesList.size()];
@@ -576,7 +608,9 @@ public class CreateTypeTwoThreeInstances {
 			ArrayList<IAtom> neighAtoms = getNeighAtomsDepth(molecule, oneAtom, depth);
 			for(int j = 0; j < neighAtoms.size(); j++){
 				IAtom neighAtom = neighAtoms.get(j);
-				String[] fp = GenerateAtomFeatures_new.generateAtomFingeprint(molecule,neighAtom).split(",");
+				String[] fp = resultMap.get(neighAtom.getProperty("UniqueID")).split(",");
+				//String[] fp = GenerateAtomFeatures_new.generateAtomFingeprint(molecule,neighAtom).split(",");
+
 				for(int k = 0; k < fp.length; k++){
 					if(fp[k].equals("1")){
 						//resultFP[k + FingerPrintQueries_new.newQueriesList.size()*i + GeneratePatterns.queriesList.size()] = "1";
@@ -594,6 +628,7 @@ public class CreateTypeTwoThreeInstances {
 		}
 		return outPut.toString();
 	}
+	
 	public ArrayList<IAtom> getNeighAtomsDepth(IAtomContainer molecule, IAtom center, int depth){
 		ArrayList<IAtom> resultList = new ArrayList<>();
 		List<List<IAtom>> pathCollection = PathTools.getPathsOfLength(molecule, center, depth);

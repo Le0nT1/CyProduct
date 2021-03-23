@@ -44,7 +44,7 @@ public class cyProductMain {
 		String enzyme = args[1];
 		String outputPathFolder = args[2];
 		//useCypReact is set as true by default, because cyProduct alone is a tool that predicts metabolites for reactants. 
-		boolean useCypReact = true;
+		boolean useCypReact = false;//true;
 		ArrayList<String> enzymeList = new ArrayList<>();
 		if(enzyme.split(",").length > 1){
 			String[] enzymeParse = enzyme.split(",");
@@ -84,6 +84,7 @@ public class cyProductMain {
 				makePrediction(oneMole, enzyme, outputPath, useCypReact);
 			}
 		}
+		
 	}
 	
 	public IAtomContainerSet readMolecule(String inputPath) throws Exception{
@@ -144,7 +145,8 @@ public class cyProductMain {
 		}
 	}
 	public static IAtomContainerSet makePredictionForEnzymeList(IAtomContainer oneMole, ArrayList<String> cypList, String outputPath, boolean useCypReact) throws Exception{
-		IAtomContainerSet results = BioTransformerAPI.runOnePrediction(oneMole, cypList, useCypReact);
+		//We don't use score in this tool
+		IAtomContainerSet results = BioTransformerAPI.runOnePrediction(oneMole, cypList, useCypReact,0.0);
 		if(outputPath!=null) PredictorForAllThreeBoMs.outputResultIAtomContainerSet(results, outputPath);
 		return results;
 		
@@ -154,12 +156,6 @@ public class cyProductMain {
 		/**
 		 * Setting up support files including feature file and model files
 		 */
-//        String fileName = "CYP1A2/1A2.model";
-//        ClassLoader classLoader = getClass().getClassLoader();
-//        File file = new File(classLoader.getResource(fileName).getFile());
-//		String supportFolderPath_typeOne = "D:/git/supportfiles/CYP" + cyp + "/";
-//		String supportFolderPath_typeTwo = "C:/Users/Tian/Desktop/BioData/SOM-React/BioTransformerDB/WaitToMerge/Merged/TypeTwoFinal/CYPs/" + cyp + "/";
-//		String supportFolderPath_typeThree = "C:/Users/Tian/Desktop/BioData/SOM-React/BioTransformerDB/WaitToMerge/Merged/TypeThreeFinal/CYPs/" + cyp + "/";
 		if(useCypReact){
 			if(!isReactant(oneMole, cyp)){
 				IAtomContainerSet results = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
@@ -185,10 +181,12 @@ public class cyProductMain {
 		sdg.generateCoordinates();
 		tempMole = sdg.getMolecule();		
 		UniqueIDFunctionSet.assignUniqueID(tempMole);
-		System.out.println("Smiles of the original structure: " + sg.create(tempMole.clone()));
+		//System.out.println("Smiles of the original structure: " + sg.create(tempMole.clone()));
 		/**
 		 * The makePrediction function in the PredictorForAllThreeBoMs class was primarily designed for multiple molecules. The function can be modified to handle one molecule later
 		 */
+
+		//long start=System.currentTimeMillis();
 		//TypeOne
 		IAtomContainerSet moleculeSet = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 		moleculeSet.addAtomContainer(tempMole.clone());
@@ -211,6 +209,7 @@ public class cyProductMain {
 		
 		if(predResultList_Three!=null && !predResultList_Three.isEmpty()) subtrate = predResultList_Three.get(0).getMolecule();
 		ArrayList<IAtom> typeThree_BoMs = PredictorForAllThreeBoMs.getTypeThreeBoMList(predResultList_Three, subtrate);
+		//long predict_time=System.currentTimeMillis();
 //		for(int t = 0; t < typeOne_BoMs.size(); t++){
 //			ArrayList<IAtom> oneBoM = typeOne_BoMs.get(t);
 //			int idx_one = predResultList_typeOne.get(0).getMolecule().indexOf(oneBoM.get(0));
@@ -218,6 +217,7 @@ public class cyProductMain {
 //			System.out.println(idx_one + "," + idx_two);
 //		}
 		IAtomContainerSet results = ClarifyReactionType.arrangeReactionTypesAndPredictMetabolites(typeOne_BoMs, typeTwo_BoMs, typeThree_BoMs, moleculeSet.getAtomContainer(0));
+		//long metabolite_time=System.currentTimeMillis();
 		results = Utilities.removeDuplicates(results);
 		//String outputPath = "C:/Users/Tian/Desktop/BioData/SOM-React/BioTransformerDB/WaitToMerge/Merged/" + "Molecule_" + i + "_metabolites.sdf";
 		//String outputPath = "E:/CyProduct_results/" + "Molecule_" + i + "_metabolites.sdf";
@@ -226,6 +226,8 @@ public class cyProductMain {
 			results.getAtomContainer(k).setProperty("Enzyme", cyp);
 		}
 		if(outputPath!=null) PredictorForAllThreeBoMs.outputResultIAtomContainerSet(results, outputPath);
+		//System.out.println("Prediction time: " + (predict_time - start));
+		//System.out.println("Prediction time: " + (metabolite_time - predict_time));
 		return results;
 	}
 	/**
