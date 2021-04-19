@@ -44,7 +44,7 @@ public class cyProductMain {
 		String enzyme = args[1];
 		String outputPathFolder = args[2];
 		//useCypReact is set as true by default, because cyProduct alone is a tool that predicts metabolites for reactants. 
-		boolean useCypReact = false;//true;
+		boolean useCypReact = true;//true;
 		ArrayList<String> enzymeList = new ArrayList<>();
 		if(enzyme.split(",").length > 1){
 			String[] enzymeParse = enzyme.split(",");
