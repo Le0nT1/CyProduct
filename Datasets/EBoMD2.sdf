@@ -94,9 +94,12 @@ AAKJLRGGTJKAMG-UHFFFAOYSA-N
 > <BOM_3A4>
 <1,2;Cleavage;R1>
 <1,H;Oxidation;R1>
+<12,11;Cleavage;R2>
+<12,H;Oxidation;R2>
 
 > <References>
 (R1) Wang, B. and Zhou, S.F. (2009); Synthetic and Natural Compounds that Interact with Human Cytochrome P450 1A2 and Implications in Drug Development; Current Medicinal Chemistry; Vol. 16, No. 31; PMID:19754423
+Rakhit, A., Pantze, M. P., Fettner, S., Jones, H. M., Charoin, J. E., Riek, M., ... & Hamilton, M. (2008). The effects of CYP3A4 inhibition on erlotinib pharmacokinetics: computer-based simulation (SimCYP?) predicts in vivo metabolic inhibition. European journal of clinical pharmacology, 64(1), 31-41.
 
 $$$$
 leflunomide
@@ -148,6 +151,7 @@ VHOGYURTWQBHIL-UHFFFAOYSA-N
 
 > <BOM_1A2>
 <5,6;Cleavage;R1>
+<4,5;Oxidation;R1>
 
 > <BOM_2A6>
 
@@ -652,6 +656,9 @@ MCWXGJITAZMZEV-UHFFFAOYSA-N
 > <References>
 (R1) Buratti, F.M. and Testai, E. (2007). Evidences for CYP3A4 autoactivation in the desulfuration of dimethoate by the human liver. Toxicology, Vol. 241, No. 1-2, (33-46).
 
+> <Comment>
+In paper (https://doi.org/10.1016/j.tox.2007.08.081), it says DIM can be detoxified by esterase-dependent hydrolytic cleavage of the Csingle bondN bond, to yield DIM carboxylic acid. However, it's not clear if the reaction is catalyzed by a CYP450 enzyme or which CYP450 isoform it is. 
+
 $$$$
 Disulfoton
   CDK     08132014293D
@@ -792,7 +799,7 @@ VPIXQGUBUKFLRF-UHFFFAOYSA-N
 <21,H;Oxidation;R1>
 
 > <BOM_2D6>
-
+<2,H;Hydroxylation;R1>
 
 > <BOM_2E1>
 
@@ -803,6 +810,7 @@ VPIXQGUBUKFLRF-UHFFFAOYSA-N
 
 > <References>
 (R1) Wang, B. and Zhou, S.F. (2009); Synthetic and Natural Compounds that Interact with Human Cytochrome P450 1A2 and Implications in Drug Development; Current Medicinal Chemistry; Vol. 16, No. 31; PMID:19754423
+Yokono, A., Morita, S., Someya, T., Hirokane, G., Okawa, M., & Shimoda, K. (2001). The effect of CYP2C19 and CYP2D6 genotypes on the metabolism of clomipramine in Japanese psychiatric patients. Journal of clinical psychopharmacology, 21(6), 549-555.
 
 $$$$
 Fenthion
@@ -917,6 +925,8 @@ WRMRXPASUROZGT-UHFFFAOYSA-N
 > <BOM_1A2>
 <6,5;Cleavage;R1>
 <6,H;Oxidation;R1>
+<10,H;Hydroxylation;R2>
+<12,H;Hydroxylation;R3>
 
 > <BOM_2A6>
 
@@ -934,7 +944,8 @@ WRMRXPASUROZGT-UHFFFAOYSA-N
 
 
 > <BOM_2D6>
-
+<10,H;Hydroxylation;R1>
+<12,H;Hydroxylation;R2>
 
 > <BOM_2E1>
 
@@ -942,9 +953,12 @@ WRMRXPASUROZGT-UHFFFAOYSA-N
 > <BOM_3A4>
 <6,5;Cleavage;R1>
 <6,H;Oxidation;R1>
+<10,H;Hydroxylation;R2>
+<12,H;Hydroxylation;R3>
 
 > <References>
 (R3) Zhou, S-F.; (2016); Cytochrome P450 2D6: Structure, Function, Regulation and Polymorphism; Edited by CRC Press; ISBN 9781466597884 - CAT# KE23693
+Wang, B., & Zhou, S. F. (2009). Synthetic and natural compounds that interact with human cytochrome P450 1A2 and implications in drug development. Current medicinal chemistry, 16(31), 4066-4218.
 
 $$$$
 N-Desmethyldiphenhydramine
@@ -1102,73 +1116,6 @@ JXHJNEJVUNHLKO-HNNXBMFYSA-N
 (R1) Usmani, K.A.; (2004b). In vitro sulfoxidation of thioether compounds by human cytochrome P450 and flavin-containing monooxygenase isoforms with particular reference to the CYP2C subfamily. Drug Metab. Dispos., Vol. 32, No. 3, (333-339).
 
 $$$$
-Thymol
-  CDK     08132014293D
-
- 11 11  0  0  0  0  0  0  0  0999 V2000
-   -7.2543    2.6652    0.0000 O   0  0  0  0  0  0  0  0  0  1  0  0
-   -7.2543    1.8402    0.0000 C   0  0  0  0  0  0  0  0  0  2  0  0
-   -6.5398    1.4277    0.0000 C   0  0  0  0  0  0  0  0  0  3  0  0
-   -6.5398    0.6027    0.0000 C   0  0  0  0  0  0  0  0  0  4  0  0
-   -7.2543    0.1902    0.0000 C   0  0  0  0  0  0  0  0  0  5  0  0
-   -7.9687    0.6027    0.0000 C   0  0  0  0  0  0  0  0  0  6  0  0
-   -7.9687    1.4277    0.0000 C   0  0  0  0  0  0  0  0  0  7  0  0
-   -8.6832    1.8402    0.0000 C   0  0  0  0  0  0  0  0  0  8  0  0
-   -9.3977    1.4277    0.0000 C   0  0  0  0  0  0  0  0  0  9  0  0
-   -8.6832    2.6652    0.0000 C   0  0  0  0  0  0  0  0  0 10  0  0
-   -5.8253    0.1902    0.0000 C   0  0  0  0  0  0  0  0  0 11  0  0
-  1  2  1  0  0  0  0 
-  2  3  2  0  0  0  0 
-  3  4  1  0  0  0  0 
-  4  5  2  0  0  0  0 
-  5  6  1  0  0  0  0 
-  6  7  2  0  0  0  0 
-  2  7  1  0  0  0  0 
-  7  8  1  0  0  0  0 
-  8  9  1  0  0  0  0 
-  8 10  1  0  0  0  0 
-  4 11  1  0  0  0  0 
-M  END
-> <InChIKey>
-MGSRCZKZVOBKFT-UHFFFAOYSA-N
-
-> <BOM_1A2>
-<5,H;Hydroxylation;R1>
-<11,H;Hydroxylation;R2>
-<9,H;Hydroxylation;R3>
-<10,H;Hydroxylation;R4>
-
-> <BOM_2A6>
-<5,H;Hydroxylation;R1>
-<11,H;Hydroxylation;R2>
-<9,H;Hydroxylation;R3>
-<10,H;Hydroxylation;R4>
-
-> <BOM_2B6>
-
-
-> <BOM_2C8>
-
-
-> <BOM_2C9>
-
-
-> <BOM_2C19>
-
-
-> <BOM_2D6>
-
-
-> <BOM_2E1>
-
-
-> <BOM_3A4>
-
-
-> <References>
-(R1) J??ger, W. and H??ferl, M.; Metabolism of Terpenoids in Animal Models and Humans (Chapter 9) in Handbook of Essential Oils - Science, Technology, and Applications, Second Edition; Edited by K. Husnu Can Baser and Gerhard Buchbauer; CRC Press 2015; pp. 253?????279.
-
-$$$$
 nisoldipine
   CDK     08132014293D
 
@@ -1245,6 +1192,7 @@ VKQFCGNPDRICFG-UHFFFAOYSA-N
 <6,7;Oxidation;R1>
 <C.4,H;Oxidation;R1>
 <N.7,H;Oxidation;R1>
+<13,H;Hydroxylation;R2>
 
 > <BOM_2A6>
 
@@ -1264,6 +1212,8 @@ VKQFCGNPDRICFG-UHFFFAOYSA-N
 <6,7;Oxidation;R1>
 <C.4,H;Oxidation;R1>
 <N.7,H;Oxidation;R1>
+<28,27;Cleavage;R2>
+<28,H;Oxidation;R2>
 
 > <BOM_2C19>
 <7,2;Oxidation;R1>
@@ -1274,6 +1224,9 @@ VKQFCGNPDRICFG-UHFFFAOYSA-N
 <6,7;Oxidation;R1>
 <C.4,H;Oxidation;R1>
 <N.7,H;Oxidation;R1>
+<13,H;Hydroxylation;R2>
+<28,27;Cleavage;R3>
+<28,H;Oxidation;R3>
 
 > <BOM_2D6>
 <7,2;Oxidation;R1>
@@ -1284,6 +1237,7 @@ VKQFCGNPDRICFG-UHFFFAOYSA-N
 <6,7;Oxidation;R1>
 <C.4,H;Oxidation;R1>
 <N.7,H;Oxidation;R1>
+<13,H;Hydroxylation;R2>
 
 > <BOM_2E1>
 <7,2;Oxidation;R1>
@@ -1294,6 +1248,8 @@ VKQFCGNPDRICFG-UHFFFAOYSA-N
 <6,7;Oxidation;R1>
 <C.4,H;Oxidation;R1>
 <N.7,H;Oxidation;R1>
+<28,27;Cleavage;R2>
+<28,H;Oxidation;R2>
 
 > <BOM_3A4>
 <7,2;Oxidation;R1>
@@ -1304,9 +1260,11 @@ VKQFCGNPDRICFG-UHFFFAOYSA-N
 <6,7;Oxidation;R1>
 <C.4,H;Oxidation;R1>
 <N.7,H;Oxidation;R1>
+<13,H;Hydroxylation;R2>
 
 > <References>
 PMID: 15618694;PMID: 24816159
+Yuan, L., Jia, P., Sun, Y., Zhao, C., Zhi, X., Sheng, N., & Zhang, L. (2014). Study of in vitro metabolism of m-nisoldipine in human liver microsomes and recombinant cytochrome P450 enzymes by liquid chromatography¨Cmass spectrometry. Journal of pharmaceutical and biomedical analysis, 97, 65-71.
 
 $$$$
 Methoxyflurane
@@ -1336,16 +1294,23 @@ RFKMCNOHBTXSMU-UHFFFAOYSA-N
 4116
 
 > <BOM_1A2>
-<8,5;Cleavage;R1>
-<8,H;Oxidation;R1>
+
 
 > <BOM_2A6>
 <8,5;Cleavage;R1>
 <8,H;Oxidation;R1>
+<7,1;Cleavage;R2>
+<7,H;Oxidation;R2>
+<7,2;Cleavage;R3>
+<7,H;Oxidation;R3>
 
 > <BOM_2B6>
 <8,5;Cleavage;R1>
 <8,H;Oxidation;R1>
+<7,1;Cleavage;R2>
+<7,H;Oxidation;R2>
+<7,2;Cleavage;R3>
+<7,H;Oxidation;R3>
 
 > <BOM_2C8>
 
@@ -1357,16 +1322,23 @@ RFKMCNOHBTXSMU-UHFFFAOYSA-N
 
 
 > <BOM_2D6>
-<8,5;Cleavage;R1>
-<8,H;Oxidation;R1>
+
 
 > <BOM_2E1>
 <8,5;Cleavage;R1>
 <8,H;Oxidation;R1>
+<7,1;Cleavage;R2>
+<7,H;Oxidation;R2>
+<7,2;Cleavage;R3>
+<7,H;Oxidation;R3>
 
 > <BOM_3A4>
 <8,5;Cleavage;R1>
 <8,H;Oxidation;R1>
+<7,1;Cleavage;R2>
+<7,H;Oxidation;R2>
+<7,2;Cleavage;R3>
+<7,H;Oxidation;R3>
 
 > <References>
 Kharasch ED, Hankins DC, Thummel KE. Human kidney methoxyflurane and sevoflurane metabolism: intrarenal
@@ -1375,125 +1347,11 @@ methoxyflurane nephrotoxicity. Anesthesiology 1995; 82:
 607ï¿½C8.
 Chang, G. W. M., and P. C. A. Kam. "The physiological and pharmacological roles of cytochrome P450 isoenzymes." Anaesthesia 54.1 (1999): 42-50.
 Nelson, Sidney D., and William F. Trager. "The use of deuterium isotope effects to probe the active site properties, mechanism of cytochrome P450-catalyzed reactions, and mechanisms of metabolically dependent toxicity." Drug metabolism and disposition 31.12 (2003): 1481-1497.
+Kharasch, E. D., Schroeder, J. L., Liggitt, H. D., Park, S. B., Whittington, D., & Sheffels, P. (2006). New insights into the mechanism of methoxyflurane nephrotoxicity and implications for anesthetic development (Part 1) Identification of the nephrotoxic metabolic pathway. The Journal of the American Society of Anesthesiologists, 105(4), 726-736.
+Harrold, M., & Zavod, R. (2013). Basic concepts in medicinal chemistry. ASHP.
+
 
 > <FLAG_COMMENTS>
-One paper says CYP1A2 and 2D6 don't catalyze the metaboism of Methoxyflurane but one experiment in the other paper shows those two enzymes have no activity. 
-The pathway of Defluorination used is shown in the third reference.
-
-$$$$
-Cinnarizine
-  CDK     08132014293D
-
- 28 31  0  0  0  0  0  0  0  0999 V2000
-   -1.4225    0.4419   -0.0150 N   0  0  0  0  0  0  0  0  0  1  0  0
-    1.1797    1.6949    0.1163 N   0  0  0  0  0  0  0  0  0  2  0  0
-   -0.2433   -0.2971    0.4526 C   0  0  0  0  0  0  0  0  0  3  0  0
-   -1.2798    1.8730    0.2794 C   0  0  0  0  0  0  0  0  0  4  0  0
-   -2.6423   -0.0928    0.5866 C   0  0  0  0  0  0  0  0  0  5  0  0
-    1.0365    0.2636   -0.1772 C   0  0  0  0  0  0  0  0  0  6  0  0
-    0.0001    2.4345   -0.3493 C   0  0  0  0  0  0  0  0  0  7  0  0
-    2.3990    2.2291   -0.4873 C   0  0  0  0  0  0  0  0  0  8  0  0
-   -3.8653    0.7541    0.2669 C   0  0  0  0  0  0  0  0  0  9  0  0
-   -2.8635   -1.5588    0.2445 C   0  0  0  0  0  0  0  0  0 10  0  0
-    3.6212    1.5316    0.0322 C   0  0  0  0  0  0  0  0  0 11  0  0
-   -4.2025    1.7873    1.1176 C   0  0  0  0  0  0  0  0  0 12  0  0
-   -3.5300   -2.3616    1.1480 C   0  0  0  0  0  0  0  0  0 13  0  0
-   -4.6008    0.4645   -0.8644 C   0  0  0  0  0  0  0  0  0 14  0  0
-   -2.3915   -2.0420   -0.9589 C   0  0  0  0  0  0  0  0  0 15  0  0
-   -5.3235    2.5641    0.8246 C   0  0  0  0  0  0  0  0  0 16  0  0
-   -3.7329   -3.7056    0.8346 C   0  0  0  0  0  0  0  0  0 17  0  0
-   -5.7218    1.2412   -1.1574 C   0  0  0  0  0  0  0  0  0 18  0  0
-   -2.5945   -3.3860   -1.2724 C   0  0  0  0  0  0  0  0  0 19  0  0
-    4.4798    0.8653   -0.7560 C   0  0  0  0  0  0  0  0  0 20  0  0
-   -6.0829    2.2910   -0.3129 C   0  0  0  0  0  0  0  0  0 21  0  0
-   -3.2654   -4.2177   -0.3756 C   0  0  0  0  0  0  0  0  0 22  0  0
-    5.6986    0.1799   -0.2950 C   0  0  0  0  0  0  0  0  0 23  0  0
-    5.8191   -0.1669    1.0415 C   0  0  0  0  0  0  0  0  0 24  0  0
-    6.7033   -0.1061   -1.2060 C   0  0  0  0  0  0  0  0  0 25  0  0
-    6.9739   -0.8159    1.4784 C   0  0  0  0  0  0  0  0  0 26  0  0
-    7.8581   -0.7553   -0.7691 C   0  0  0  0  0  0  0  0  0 27  0  0
-    7.9933   -1.1102    0.5732 C   0  0  0  0  0  0  0  0  0 28  0  0
-  1  3  1  0  0  0  0 
-  1  4  1  0  0  0  0 
-  1  5  1  0  0  0  0 
-  2  6  1  0  0  0  0 
-  2  7  1  0  0  0  0 
-  2  8  1  0  0  0  0 
-  3  6  1  0  0  0  0 
-  4  7  1  0  0  0  0 
-  5  9  1  0  0  0  0 
-  5 10  1  0  0  0  0 
-  8 11  1  0  0  0  0 
-  9 12  2  0  0  0  0 
-  9 14  1  0  0  0  0 
- 10 13  2  0  0  0  0 
- 10 15  1  0  0  0  0 
- 11 20  2  0  0  0  0 
- 12 16  1  0  0  0  0 
- 13 17  1  0  0  0  0 
- 14 18  2  0  0  0  0 
- 15 19  2  0  0  0  0 
- 16 21  2  0  0  0  0 
- 17 22  2  0  0  0  0 
- 18 21  1  0  0  0  0 
- 19 22  1  0  0  0  0 
- 20 23  1  0  0  0  0 
- 23 24  2  0  0  0  0 
- 23 25  1  0  0  0  0 
- 24 26  1  0  0  0  0 
- 25 27  2  0  0  0  0 
- 26 28  2  0  0  0  0 
- 27 28  1  0  0  0  0 
-M  END
-> <InChIKey>
-DERZBLKQOCDDDZ-JLHYYAGUSA-N
-
-> <PubChem_CID>
-1547484
-
-> <BOM_1A2>
-<8,2;Cleavage;R1>
-<8,H;Oxidation;R1>
-<5,1;Cleavage;R2>
-<5,H;Oxidation;R2>
-
-> <BOM_2A6>
-<8,2;Cleavage;R1>
-<8,H;Oxidation;R1>
-<5,1;Cleavage;R2>
-<5,H;Oxidation;R2>
-
-> <BOM_2B6>
-<21,H;Hydroxylation;R1>
-<22,H;Hydroxylation;R2>
-
-> <BOM_2C8>
-
-
-> <BOM_2C9>
-<8,2;Cleavage;R1>
-<8,H;Oxidation;R1>
-<5,1;Cleavage;R2>
-<5,H;Oxidation;R2>
-
-> <BOM_2C19>
-
-
-> <BOM_2D6>
-<28,H;Hydroxylation;R1>
-
-> <BOM_2E1>
-
-
-> <BOM_3A4>
-
-
-> <References>
-Rendic, Slobodan. "Summary of information on human CYP enzymes: human P450 metabolism data." Drug metabolism reviews 34.1-2 (2002): 83-448.
-Zhou, S-F., et al. "Substrates, inducers, inhibitors and structure-activity relationships of human Cytochrome P450 2C9 and implications in drug development." Current medicinal chemistry 16.27 (2009): 3480-3675.
-
-> <FLAG_COMMENTS>
-
 
 $$$$
 Flunarizine
@@ -1609,185 +1467,6 @@ SMANXXCATUTDDT-QPJJXVBHSA-N
 > <References>
 Rendic, Slobodan. "Summary of information on human CYP enzymes: human P450 metabolism data." Drug metabolism reviews 34.1-2 (2002): 83-448.
 Zhou, S-F., et al. "Substrates, inducers, inhibitors and structure-activity relationships of human Cytochrome P450 2C9 and implications in drug development." Current medicinal chemistry 16.27 (2009): 3480-3675.
-
-> <FLAG_COMMENTS>
-
-
-$$$$
-alvameline
-  CDK     08132014293D
-
- 14 15  0  0  0  0  0  0  0  0999 V2000
-   -2.8525   -0.9615   -0.3112 N   0  0  0  0  0  0  0  0  0  1  0  0
-    2.6113   -0.0444    0.2736 N   0  0  0  0  0  0  0  0  0  2  0  0
-    1.4124   -0.6418    0.3239 N   0  0  0  0  0  0  0  0  0  3  0  0
-    1.3172    1.5862   -0.0690 N   0  0  0  0  0  0  0  0  0  4  0  0
-    2.6030    1.2757    0.0425 N   0  0  0  0  0  0  0  0  0  5  0  0
-   -3.6266    0.1630    0.2271 C   0  0  0  0  0  0  0  0  0  6  0  0
-   -1.4663   -0.9253    0.1971 C   0  0  0  0  0  0  0  0  0  7  0  0
-   -3.0353    1.4931   -0.2550 C   0  0  0  0  0  0  0  0  0  8  0  0
-   -0.8018    0.4285    0.0380 C   0  0  0  0  0  0  0  0  0  9  0  0
-   -1.5371    1.5321   -0.1877 C   0  0  0  0  0  0  0  0  0 10  0  0
-   -3.4874   -2.2372    0.0167 C   0  0  0  0  0  0  0  0  0 11  0  0
-    0.6376    0.4198    0.1040 C   0  0  0  0  0  0  0  0  0 12  0  0
-    3.8371   -0.7775    0.4556 C   0  0  0  0  0  0  0  0  0 13  0  0
-    4.3883   -1.3106   -0.8556 C   0  0  0  0  0  0  0  0  0 14  0  0
-  1  6  1  0  0  0  0 
-  1  7  1  0  0  0  0 
-  1 11  1  0  0  0  0 
-  2  3  1  0  0  0  0 
-  2  5  1  0  0  0  0 
-  2 13  1  0  0  0  0 
-  3 12  2  0  0  0  0 
-  4  5  2  0  0  0  0 
-  4 12  1  0  0  0  0 
-  6  8  1  0  0  0  0 
-  7  9  1  0  0  0  0 
-  8 10  1  0  0  0  0 
-  9 10  2  0  0  0  0 
-  9 12  1  0  0  0  0 
- 13 14  1  0  0  0  0 
-M  END
-> <InChIKey>
-RNMOMKCRCIRYCZ-UHFFFAOYSA-N
-
-> <PubChem_CID>
-178030
-
-> <BOM_1A2>
-<11,1;Cleavage;R1>
-<11,H;Oxidation;R1>
-<1,N;N-Oxidation;R2>
-
-> <BOM_2A6>
-<11,1;Cleavage;R1>
-<11,H;Oxidation;R1>
-
-> <BOM_2B6>
-
-
-> <BOM_2C8>
-
-
-> <BOM_2C9>
-
-
-> <BOM_2C19>
-<11,1;Cleavage;R1>
-<11,H;Oxidation;R1>
-<1,N;N-Oxidation;R2>
-
-> <BOM_2D6>
-<13,2;Cleavage;R1>
-<13,H;Oxidation;R1>
-
-> <BOM_2E1>
-
-
-> <BOM_3A4>
-<11,1;Cleavage;R1>
-<11,H;Oxidation;R1>
-
-> <References>
-Jensen, Klaus Gjervig, and Lars Dalgaard. "In vitro metabolism of the M1-muscarinic agonist 5-(2-ethyl-2H-tetrazol-5-yl)-1-methyl-1, 2, 3, 6-tetrahydropyridine by human hepatic cytochromes P-450 determined at pH 7.4 and 8.5." Drug metabolism and disposition 27.1 (1999): 125-132.
-
-> <FLAG_COMMENTS>
-There are some other minor metabolites but not record here because their metabolic pathway is not identified.
-
-$$$$
-Amidopyrine
-  CDK     08132014293D
-
- 17 18  0  0  0  0  0  0  0  0999 V2000
-    0.3402   -1.0760    0.1786 O   0  0  0  0  0  0  0  0  0  1  0  0
-    0.1740    0.7671    0.0221 N   0  0  0  0  0  0  0  0  0  2  0  0
-   -0.1524    0.0964    0.1145 N   0  0  0  0  0  0  0  0  0  3  0  0
-    1.6944   -0.4174   -0.0991 N   0  0  0  0  0  0  0  0  0  4  0  0
-    0.9005    0.6446   -0.0962 C   0  0  0  0  0  0  0  0  0  5  0  0
-    1.0741   -0.0506   -0.0423 C   0  0  0  0  0  0  0  0  0  6  0  0
-    0.3843   -0.4265    0.1145 C   0  0  0  0  0  0  0  0  0  7  0  0
-   -0.8986   -0.0198    0.0352 C   0  0  0  0  0  0  0  0  0  8  0  0
-    1.4048    1.2486   -0.2367 C   0  0  0  0  0  0  0  0  0  9  0  0
-   -0.0652    1.3629    0.4684 C   0  0  0  0  0  0  0  0  0 10  0  0
-    2.3047   -0.2770    0.3742 C   0  0  0  0  0  0  0  0  0 11  0  0
-    1.7564   -1.0633   -0.5411 C   0  0  0  0  0  0  0  0  0 12  0  0
-   -1.2081   -0.6592    0.2731 C   0  0  0  0  0  0  0  0  0 13  0  0
-   -1.3307    0.5041   -0.2811 C   0  0  0  0  0  0  0  0  0 14  0  0
-   -1.9424   -0.7737    0.1953 C   0  0  0  0  0  0  0  0  0 15  0  0
-   -2.0651    0.3895   -0.3588 C   0  0  0  0  0  0  0  0  0 16  0  0
-   -2.3709   -0.2494   -0.1206 C   0  0  0  0  0  0  0  0  0 17  0  0
-  1  7  2  0  0  0  0 
-  2  3  1  0  0  0  0 
-  2  5  1  0  0  0  0 
-  2 10  1  0  0  0  0 
-  3  7  1  0  0  0  0 
-  3  8  1  0  0  0  0 
-  4  6  1  0  0  0  0 
-  4 11  1  0  0  0  0 
-  4 12  1  0  0  0  0 
-  5  6  2  0  0  0  0 
-  5  9  1  0  0  0  0 
-  6  7  1  0  0  0  0 
-  8 13  2  0  0  0  0 
-  8 14  1  0  0  0  0 
- 13 15  1  0  0  0  0 
- 14 16  2  0  0  0  0 
- 15 17  2  0  0  0  0 
- 16 17  1  0  0  0  0 
-M  END
-> <InChIKey>
-RMMXTBMQSGEXHJ-UHFFFAOYSA-N
-
-> <PubChem_CID>
-6009
-
-> <BOM_1A2>
-<11,4;Cleavage;R1>
-<11,H;Oxidation;R1>
-<12,4;Cleavage;R2>
-<12,H;Oxidation;R2>
-
-> <BOM_2A6>
-
-
-> <BOM_2B6>
-
-
-> <BOM_2C8>
-<11,4;Cleavage;R1>
-<11,H;Oxidation;R1>
-<12,4;Cleavage;R2>
-<12,H;Oxidation;R2>
-
-> <BOM_2C9>
-<11,4;Cleavage;R1>
-<11,H;Oxidation;R1>
-<12,4;Cleavage;R2>
-<12,H;Oxidation;R2>
-
-> <BOM_2C19>
-<11,4;Cleavage;R1>
-<11,H;Oxidation;R1>
-<12,4;Cleavage;R2>
-<12,H;Oxidation;R2>
-
-> <BOM_2D6>
-<11,4;Cleavage;R1>
-<11,H;Oxidation;R1>
-<12,4;Cleavage;R2>
-<12,H;Oxidation;R2>
-
-> <BOM_2E1>
-
-
-> <BOM_3A4>
-<11,4;Cleavage;R1>
-<11,H;Oxidation;R1>
-<12,4;Cleavage;R2>
-<12,H;Oxidation;R2>
-
-> <References>
-Zhou SF, Zhou ZW, Yang LP, Cai JP: Substrates, inducers, inhibitors and structure-activity relationships of human Cytochrome P450 2C9 and implications in drug development. Curr Med Chem. 2009;16(27):3480-675. Epub 2009 Sep 1.PubMed:19515014
 
 > <FLAG_COMMENTS>
 
@@ -2598,6 +2277,7 @@ ZUTQCPBDRJBADG-UHFFFAOYSA-N
 > <BOM_2C8>
 <8,9;Cleavage;R1>
 <8,H;Oxidation;R1>
+<7,H;Hydroxylation;R2>
 
 > <BOM_2C9>
 
@@ -2614,6 +2294,7 @@ ZUTQCPBDRJBADG-UHFFFAOYSA-N
 > <BOM_3A4>
 <8,9;Cleavage;R1>
 <8,H;Oxidation;R1>
+<7,H;Hydroxylation;R2>
 
 > <References>
 PMID: 10659950
@@ -3123,10 +2804,10 @@ TWHZNAUBXFZMCA-UHFFFAOYSA-N
 
 
 > <BOM_2C8>
-<31,4;Cleavage;R1>
-<31,H;Oxidation;R1>
-<30,3;Cleavage;R2>
-<30,H;Oxidation;R2>
+<12,7;Cleavage;R1>
+<12,H;Oxidation;R1>
+<11,7;Cleavage;R2>
+<11,H;Oxidation;R2>
 
 > <BOM_2C9>
 
@@ -3141,10 +2822,10 @@ TWHZNAUBXFZMCA-UHFFFAOYSA-N
 
 
 > <BOM_3A4>
-<31,4;Cleavage;R1>
-<31,H;Oxidation;R1>
-<30,3;Cleavage;R2>
-<30,H;Oxidation;R2>
+<12,7;Cleavage;R1>
+<12,H;Oxidation;R1>
+<11,7;Cleavage;R2>
+<11,H;Oxidation;R2>
 
 > <References>
 Backman, Janne T., et al. "Role of cytochrome P450 2C8 in drug metabolism and interactions." Pharmacological reviews68.1 (2016): 168-241.
@@ -3867,6 +3548,8 @@ PWWVAXIEGOYWEE-UHFFFAOYSA-N
 <20,18;Cleavage;R2>
 <20,H;Oxidation;R2>
 <11,S;S-Oxidation;R3>
+<14,H;Hydroxylation;R4>
+<8,H;Hydroxylation;R5>
 
 > <BOM_2E1>
 
@@ -3875,7 +3558,8 @@ PWWVAXIEGOYWEE-UHFFFAOYSA-N
 
 
 > <References>
-PMID: 27994650;PMID: 8946477 
+PMID: 27994650;PMID: 8946477
+Eh-Haj, B. M. (2021). Metabolic N-Dealkylation and N-Oxidation as Elucidators of the Role of Alkylamino Moieties in Drugs Acting at Various Receptors. Molecules, 26(7), 1917. 
 
 $$$$
 Droloxifene
@@ -4155,7 +3839,11 @@ NZLBHDRPUJLHCE-UHFFFAOYSA-N
 <12,11;Cleavage;R1>
 <12,H;Oxidation;R1>
 <14,11;Cleavage;R2>
-<14,H;Oxidaiton;R2>
+<14,H;Oxidation;R2>
+<21,H;Hydroxylation;R3>
+<20,H;Hydroxylation;R4>
+<1,H;Hydroxylation;R5>
+
 
 > <BOM_2E1>
 
@@ -4165,6 +3853,7 @@ NZLBHDRPUJLHCE-UHFFFAOYSA-N
 
 > <References>
 (R1) Brown, C.M. et al. (2008); Cytochromes P450: A Structure-Based Summary of Biotransformations Using Representative Substrates; Drug Metabolism Reviews, 40:1, 1-100, DOI: 10.1080/03602530701836662; PMID:18259988
+Ebner, T., & Eichelbaum, M. (1993). The metabolism of aprindine in relation to the sparteine/debrisoquine polymorphism. British journal of clinical pharmacology, 35(4), 426-430.
 
 $$$$
 Encainide
@@ -4531,8 +4220,8 @@ DJBNUMBKLMJRSA-LDGXTIHJNA-N
 
 
 > <BOM_2D6>
-<17,16;Cleavage;R1>
-<17,H;Oxidation;R1>
+<8,7;Cleavage;R1>
+<8,H;Oxidation;R1>
 
 > <BOM_2E1>
 
@@ -4799,6 +4488,7 @@ NCDNCNXCDXHOMX-XGKFQTDJSA-N
 <9,29;Cleavage;R2>
 <46,H;Hydroxylation;R3>
 <39,11;Cleavage;R4>
+<39,H;Oxidation;R4>
 
 > <References>
 Zhou SF, Zhou ZW, Yang LP, Cai JP: Substrates, inducers, inhibitors and structure-activity relationships of human Cytochrome P450 2C9 and implications in drug development. Curr Med Chem. 2009;16(27):3480-675. Epub 2009 Sep 1. PubMed:19515014.
@@ -5660,7 +5350,8 @@ WLOBUUJURNEQCL-UHFFFAOYNA-N
 
 
 > <BOM_2C8>
-
+<17,16;Cleavage;R1>
+<17,H;Oxidation;R1>
 
 > <BOM_2C9>
 
@@ -5680,6 +5371,7 @@ WLOBUUJURNEQCL-UHFFFAOYNA-N
 
 > <References>
 (R1) Brown, C.M. et al. (2008); Cytochromes P450: A Structure-Based Summary of Biotransformations Using Representative Substrates; Drug Metabolism Reviews, 40:1, 1-100, DOI: 10.1080/03602530701836662; PMID:18259985 || (R2) Tracy, T.S. et al. (1999); Cytochrome P450 isoforms involved in metabolism of the enantiomers of verapamil and norverapamil; Br J Clin Pharmacol. 1999 May; 47(5): 545?????552; doi: 10.1046/j.1365-2125.1999.00923.x || (R2) Wang and Zhou; Current Medicinal Chemistry, 2009 Vol. 16, No. 31; PMID:19754423
+Di Nardo, G., & Gilardi, G. (2012). Optimization of the bacterial cytochrome P450 BM3 system for the production of human drug metabolites. International journal of molecular sciences, 13(12), 15901-15924.
 
 $$$$
 Lansoprazole
@@ -5757,10 +5449,12 @@ DQJZOUNZNYHEBV-AREMUKBSSA-N
 
 
 > <BOM_2C9>
-
+<6,H;Hydroxylation;R1>
+<7,H;Hydroxylation;R2>
 
 > <BOM_2C19>
-
+<6,H;Hydroxylation;R1>
+<7,H;Hydroxylation;R2>
 
 > <BOM_2D6>
 
@@ -5770,6 +5464,8 @@ DQJZOUNZNYHEBV-AREMUKBSSA-N
 
 > <BOM_3A4>
 <10,S;S-Oxidation;R1>
+<6,H;Hydroxylation;R2>
+<7,H;Hydroxylation;R3>
 
 > <References>
 (R1) Zhou, S.F. et al. (2009); Substrates, Inducers, Inhibitors and Structure-Activity Relationships of Human Cytochrome P450 2C9 and Implications in Drug Development; Current Medicinal Chemistry, 2009, 16, 3480-3676
@@ -5964,7 +5660,7 @@ NYDCDZSEEAUOHN-IZHYLOQSSA-N
 
 
 > <BOM_2D6>
-
+<1,H;Hydroxylation;R1>
 
 > <BOM_2E1>
 
@@ -5975,6 +5671,7 @@ NYDCDZSEEAUOHN-IZHYLOQSSA-N
 
 > <References>
 (R1) Brown, C.M. et al. (2008); Cytochromes P450: A Structure-Based Summary of Biotransformations Using Representative Substrates; Drug Metabolism Reviews, 40:1, 1-100, DOI: 10.1080/03602530701836662; PMID:18259985 || (R2) Wang and Zhou; Current Medicinal Chemistry, 2009 Vol. 16, No. 31; PMID:19754423 || (R3) Zhou, S.F. (2009); Polymorphism of Human Cytochrome P450 2D6 and Its Clinical Significance; Clin Pharmacokinet 2009; 48 (11); PMID:19902987 || (R4) Rendic,S. (2002) Summary of information on human CYP enzymes: human P450 metabolism data, Drug Metabolism Reviews, 34:1-2, 83-448, DOI: 10.1081/ DMR-120001392; PMID:11996015
+Ref: Hussaarts, K. G. A. M. Impact of Curcumin (with or without Piperine) on the Pharmacokinetics of Tamoxifen. Cancers 2019 11 (3), 403.
 
 $$$$
 Nimodipine
@@ -6402,7 +6099,11 @@ INDBQLZJXZLFIT-UHFFFAOYSA-N
 
 
 > <BOM_2D6>
-
+<18,H;Hydroxylation;R1>
+<17,H;Hydroxylation;R2>
+<16,H;Hydroxylation;R3>
+<15,H;Hydroxylation;R4>
+<12,H;Hydroxylation;R5>
 
 > <BOM_2E1>
 
@@ -6413,6 +6114,7 @@ INDBQLZJXZLFIT-UHFFFAOYSA-N
 
 > <References>
 Rendic, Slobodan. "Summary of information on human CYP enzymes: human P450 metabolism data." Drug metabolism reviews 34.1-2 (2002): 83-448.
+Marcsisin, S. R., Reichard, G., & Pybus, B. S. (2016). Primaquine pharmacology in the context of CYP 2D6 pharmacogenomics: current state of the art. Pharmacology & therapeutics, 161, 1-10.
 
 > <FLAG_COMMENTS>
 It should also be a substrate for CYP2D6 and reported as substrate for CYP2A6 in some other paper. The corresponding metabolites/metabolic pathways can not be identified.
