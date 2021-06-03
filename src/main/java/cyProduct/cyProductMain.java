@@ -36,13 +36,15 @@ public class cyProductMain {
 	public static final SmilesGenerator sg = new SmilesGenerator(SmiFlavor.Isomeric);	
 	public static void main(String[] args) throws Exception{
 		if(args.length != 3) {
-			System.out.println("Input input 4 arguemtns: queriedCompund, cyp450enzyme and outputPath");
+			System.out.println("Input arguemtns don't match: queriedCompund, cyp450enzyme and outputPath");
 			return;
 		}
 		cyProductMain cyProduct = new cyProductMain();
 		String inputPath = args[0];
 		String enzyme = args[1];
 		String outputPathFolder = args[2];
+		File outputFoler = new File(outputPathFolder);
+		if(!outputFoler.exists()) outputFoler.mkdirs();
 		//useCypReact is set as true by default, because cyProduct alone is a tool that predicts metabolites for reactants. 
 		boolean useCypReact = true;//true;
 		ArrayList<String> enzymeList = new ArrayList<>();
@@ -153,6 +155,7 @@ public class cyProductMain {
 	}
 	
 	public static IAtomContainerSet makePrediction(IAtomContainer oneMole, String cyp, String outputPath, boolean useCypReact) throws Exception{
+		//System.out.println(cyp);
 		/**
 		 * Setting up support files including feature file and model files
 		 */
@@ -210,12 +213,28 @@ public class cyProductMain {
 		if(predResultList_Three!=null && !predResultList_Three.isEmpty()) subtrate = predResultList_Three.get(0).getMolecule();
 		ArrayList<IAtom> typeThree_BoMs = PredictorForAllThreeBoMs.getTypeThreeBoMList(predResultList_Three, subtrate);
 		//long predict_time=System.currentTimeMillis();
-//		for(int t = 0; t < typeOne_BoMs.size(); t++){
-//			ArrayList<IAtom> oneBoM = typeOne_BoMs.get(t);
-//			int idx_one = predResultList_typeOne.get(0).getMolecule().indexOf(oneBoM.get(0));
-//			int idx_two = predResultList_typeOne.get(0).getMolecule().indexOf(oneBoM.get(1));
-//			System.out.println(idx_one + "," + idx_two);
-//		}
+		//System.out.println("Predicted TypeOne BoM");
+		for(int t = 0; t < typeOne_BoMs.size(); t++){
+			ArrayList<IAtom> oneBoM = typeOne_BoMs.get(t);
+			int idx_one = predResultList_typeOne.get(0).getMolecule().indexOf(oneBoM.get(0));
+			int idx_two = predResultList_typeOne.get(0).getMolecule().indexOf(oneBoM.get(1));
+			//System.out.println(idx_one + "," + idx_two);
+		}
+		//System.out.println("Predicted TypeTwo BoM");
+		for(int t = 0; t < typeTwo_BoMs.size(); t++){
+			IAtom oneBoM = typeTwo_BoMs.get(t);
+			int idx_one = predResultList_typeTwo.get(0).getMolecule().indexOf(oneBoM);
+			//int idx_two = predResultList_typeOne.get(0).getMolecule().indexOf(oneBoM.get(1));
+			//System.out.println(idx_one);
+		}
+		//System.out.println("Prediceted TypeThree BoM");
+		for(int t = 0; t < typeThree_BoMs.size(); t++){
+			IAtom oneBoM = typeThree_BoMs.get(t);
+			int idx_one = predResultList_Three.get(0).getMolecule().indexOf(oneBoM);
+			//int idx_two = predResultList_typeOne.get(0).getMolecule().indexOf(oneBoM.get(1));
+			//System.out.println(idx_one);
+		}
+		//System.out.println("BoM prediction done");
 		IAtomContainerSet results = ClarifyReactionType.arrangeReactionTypesAndPredictMetabolites(typeOne_BoMs, typeTwo_BoMs, typeThree_BoMs, moleculeSet.getAtomContainer(0));
 		//long metabolite_time=System.currentTimeMillis();
 		results = Utilities.removeDuplicates(results);
