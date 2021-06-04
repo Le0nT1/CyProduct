@@ -148,14 +148,18 @@ public class PredictorForAllThreeBoMs {
 			for(int i = 0 ; i < probPos.length; i++){
 				String tempString = tempData.get(i);
 				String bond = tempString.split(",")[1];
+				Double threshold = 1/(this.beta + 1);
+				String score = String.valueOf(((probPos[i] - threshold)/(1 - threshold)));
 				String oneResult;
 				//Predict as positive
 				if(probPos[i] > 1/(this.beta + 1)){
-					oneResult = name +"," + bond + "," + "1.0" + "," + probPos[i] + "," + data.get(i).classValue();
+					//oneResult = name +"," + bond + "," + "1.0" + "," + probPos[i] + "," + data.get(i).classValue();
+					oneResult = name +"," + bond + "," + "1.0" + "," + score + "," + data.get(i).classValue();
 				}
 				//Predict as Negative
 				else {
-					oneResult = name +"," + bond + "," + "0.0" + "," + probPos[i] + "," + data.get(i).classValue();
+					//oneResult = name +"," + bond + "," + "0.0" + "," + probPos[i] + "," + data.get(i).classValue();
+					oneResult = name +"," + bond + "," + "0.0" + "," + score + "," + data.get(i).classValue();
 				}
 				
 				resultStringList.add(oneResult);

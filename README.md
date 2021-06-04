@@ -15,6 +15,7 @@ Note that there is a class called BioTransformerAPI in the jar file. It provides
 
 Please note that when you use the CyProduct tool or its API, please input enzyme without “CYP”. For example, please use 1A2 other than CYP1A2 in both cases.
 
+The score is computed using formula Score = (prob-threshold)/(1-threshold) where prob is the value predicted for the SoM and threshold = 1/(1+beta). Recall that beta is the factor in the cost matrix for the learning process of CypBoM module.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
