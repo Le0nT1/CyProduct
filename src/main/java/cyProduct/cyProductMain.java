@@ -1,8 +1,15 @@
+
+/**
+ *
+ * @author Leon Pu
+ *
+ */
 package cyProduct;
 
 import java.io.File;
 import java.util.ArrayList;
 
+import biotransformerapi.BioTransformerAPI;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.aromaticity.Aromaticity;
 import org.openscience.cdk.aromaticity.ElectronDonation;
@@ -21,9 +28,8 @@ import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.tools.CDKHydrogenAdder;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
-import bioTransformerAPI.BioTransformerAPI;
 import nu.xom.jaxen.function.SubstringAfterFunction;
-import reactantpredictor.BioTransformerAPIs;
+//import reactantpredictor.BioTransformerAPIs;
 import reactantpredictor.ReactantPred;
 import utils.ReadMolecules;
 import utils.Utilities;
@@ -47,7 +53,7 @@ public class cyProductMain {
 		if(!outputFoler.exists()) outputFoler.mkdirs();
 		//useCypReact is set as true by default, because cyProduct alone is a tool that predicts metabolites for reactants. 
 		boolean useCypReact = true;//true;
-		ArrayList<String> enzymeList = new ArrayList<>();
+		ArrayList<String> enzymeList = new ArrayList();
 		if(enzyme.split(",").length > 1){
 			String[] enzymeParse = enzyme.split(",");
 			for(int i = 0; i < enzymeParse.length; i++){
@@ -148,7 +154,7 @@ public class cyProductMain {
 	}
 	public static IAtomContainerSet makePredictionForEnzymeList(IAtomContainer oneMole, ArrayList<String> cypList, String outputPath, boolean useCypReact) throws Exception{
 		//We don't use score in this tool
-		IAtomContainerSet results = BioTransformerAPI.runOnePrediction(oneMole, cypList, useCypReact,0.0);
+		IAtomContainerSet results = biotransformerapicyproduct.BioTransformerAPI.runOnePrediction(oneMole, cypList, useCypReact,0.0);
 		if(outputPath!=null) PredictorForAllThreeBoMs.outputResultIAtomContainerSet(results, outputPath);
 		return results;
 		
@@ -258,7 +264,7 @@ public class cyProductMain {
 	 */
 	public static boolean isReactant(IAtomContainer oneMole, String cyp) throws Exception{
 		//ReactantPred reactantPredictor = new ReactantPred();
-		BioTransformerAPIs cypReactAPI = new BioTransformerAPIs();
+		BioTransformerAPI cypReactAPI = new BioTransformerAPI();
 		boolean isReactant = cypReactAPI.predictReactant(oneMole, cyp);
 		//boolean isReactant = true;
 		return isReactant;

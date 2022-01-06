@@ -1,7 +1,9 @@
 package utils;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -13,6 +15,7 @@ import org.openscience.cdk.graph.Cycles;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomContainerSet;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
+import org.openscience.cdk.io.SDFWriter;
 import org.openscience.cdk.io.iterator.IteratingSDFReader;
 import org.openscience.cdk.io.listener.PropertiesListener;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
@@ -21,7 +24,7 @@ import org.openscience.cdk.smiles.SmilesGenerator;
 import org.openscience.cdk.tools.CDKHydrogenAdder;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.IntData;
+//import com.sun.xml.internal.bind.v2.runtime.unmarshaller.IntData;
 
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.attributeSelection.Ranker;
@@ -78,7 +81,7 @@ public class Utilities {
 	 */
 	public static Instances getSameAttributes_Mp(Instances testInstances, Instances trainInstances) throws Exception{
 		Instances allignedInstances = testInstances;
-		ArrayList<String> allAtt = new ArrayList<>();
+		ArrayList<String> allAtt = new ArrayList();
 		ArrayList<Integer> retainAttIdx = new ArrayList<Integer>();
 		//This for loop stores all the attributes in the testInstances into ArrayList<Attribute> allAtt
 		for(int j = 0; j < testInstances.numAttributes(); j++){
@@ -280,7 +283,7 @@ public class Utilities {
 	public Instances getSubInstances(Instances nameList, Instances dataset) throws Exception{
 		int nameIdx = Utilities.findIndexOfName(dataset);
 		ArrayList<String> name_subList = convertNameList(nameList);
-		ArrayList<Attribute> attList = new ArrayList<>();
+		ArrayList<Attribute> attList = new ArrayList();
 		for(int i = 0; i < dataset.numAttributes(); i++){
 			Attribute oneAtt = dataset.attribute(i);
 			attList.add(oneAtt);
@@ -312,7 +315,7 @@ public class Utilities {
 	 * @return ArrayList<Sting> nameList
 	 */
 	public ArrayList<String> convertNameList(Instances nameListInstances){
-		ArrayList<String> nameList = new ArrayList<>();
+		ArrayList<String> nameList = new ArrayList();
 		for(int i = 0; i < nameListInstances.numInstances(); i++){
 			Instance nameInst = nameListInstances.get(i);
 			String name = nameInst.stringValue(0); // Get the String value of the name attribute of this instance
@@ -733,7 +736,7 @@ public class Utilities {
 	public static IAtomContainerSet removeDuplicates(IAtomContainerSet molecules) throws Exception{
 		IAtomContainerSet resultSet = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 		SmilesGenerator sg = new SmilesGenerator(SmiFlavor.Canonical);
-		ArrayList<String> smilesSet = new ArrayList<>();
+		ArrayList<String> smilesSet = new ArrayList();
 		String currentSmiles;
 		for(int i = 0; i < molecules.getAtomContainerCount(); i++){
 			currentSmiles = sg.create(molecules.getAtomContainer(i));
@@ -744,9 +747,44 @@ public class Utilities {
 		}
 		return resultSet;
 	}
-	
-	
-	
+
+	/**
+	 * Function that saves an IAtomContainerSet of containers to an SDF file
+	 *
+	 * @param containers	IAtomContainerSet of containers to save
+	 * @param outputFileName	Name of output file to send containers to
+	 * @throws CDKException	CDK class exceptions
+	 * @throws IOException    Invalid file type
+	 */
+	public static void saveAtomContainerSetToSDF(IAtomContainerSet containers, String outputFileName) throws CDKException, IOException{
+		SDFWriter sdfWriter = new SDFWriter(new FileOutputStream(outputFileName));
+		sdfWriter.write(containers);
+		sdfWriter.close();
+	}
+	/**
+	 * Function that parses SMILES Strings in provided SDF file
+	 *
+	 * @param sdfFileName	Name of SDF file with SMILES Strings
+	 * @return	IAtomContainerSet of parsed SMILES Strings
+	 * @throws IOException	Invalid file type
+	 */
+	public static IAtomContainerSet parseSdf(String sdfFileName) throws IOException {
+		IAtomContainerSet containers = DefaultChemObjectBuilder.getInstance().newInstance(
+				IAtomContainerSet.class);
+
+		IChemObjectBuilder bldr = SilentChemObjectBuilder.getInstance();
+
+		IteratingSDFReader sdfr = new IteratingSDFReader(new FileReader(sdfFileName), bldr);
+
+		while (sdfr.hasNext()){
+			IAtomContainer mol = sdfr.next();
+			containers.addAtomContainer(mol);
+		}
+
+		sdfr.close();
+		return containers;
+
+	}
 	
 	
 }
