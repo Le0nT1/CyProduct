@@ -2,9 +2,11 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.vecmath.Point3d;
 
+import org.openscience.cdk.graph.PathTools;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 
@@ -14,6 +16,7 @@ import org.openscience.cdk.interfaces.IAtomContainer;
  *
  */
 public class DistanceRelatedFunciton {
+	PathTools pathFinder = new PathTools();
 	/**
 	 * This function will initialize the ClosestAtoms property for each atom.
 	 * Input:
@@ -23,7 +26,7 @@ public class DistanceRelatedFunciton {
 	 * @param numAtoms
 	 * @throws Exception
 	 */
-	public static void initializeClosestAtomsProperty(IAtomContainer oneMole, Integer numAtoms) throws Exception{		
+	public void initializeClosestAtomsProperty(IAtomContainer oneMole, Integer numAtoms) throws Exception{		
 		for(int i = 0; i < oneMole.getAtomCount(); i++){
 			IAtom oneAtom = oneMole.getAtom(i);			
 			HashMap<IAtom,Double> atomDisMap = new HashMap<>();
@@ -44,7 +47,7 @@ public class DistanceRelatedFunciton {
 	 * @param numAtoms
 	 * @return
 	 */
-	public static ArrayList<IAtom> getClosestAtomListInMolecule(IAtomContainer oneMole, IAtom oneAtom, Integer numAtoms){
+	public ArrayList<IAtom> getClosestAtomListInMolecule_3D(IAtomContainer oneMole, IAtom oneAtom, Integer numAtoms){
 		HashMap<IAtom,Double> atomDisMap = new HashMap<>();
 		for(int i = 0; i < oneMole.getAtomCount(); i++){
 			IAtom closeAtom = oneMole.getAtom(i);
@@ -56,12 +59,37 @@ public class DistanceRelatedFunciton {
 		ArrayList<IAtom> closestAtoms = getCloesestAtomListInMap(atomDisMap, numAtoms);
 		return closestAtoms;
 	}
+	
+	/**
+	 * This function will get the numAtoms many closest atoms for the oneAtom within the molecule
+	 * @param oneMole
+	 * @param oneAtom
+	 * @param numAtoms
+	 * @return
+	 */
+	public ArrayList<IAtom> getClosestAtomListInMolecule_NoCoordinates(IAtomContainer oneMole, IAtom oneAtom, Integer numAtoms){
+		ArrayList<IAtom> closestAtoms = new ArrayList<>();
+		int length = 1;
+		//add condition: length < numAtoms, so it won't fall into the infinite loop case 
+		while(closestAtoms.size() < numAtoms && length < numAtoms-1){
+			if(oneMole.getAtomCount() < numAtoms) break;
+			else{
+				List<List<IAtom>> allPaths = PathTools.getPathsOfLength(oneMole, oneAtom, length);
+				for(int i = 0; i < allPaths.size(); i++){
+					IAtom checkAtom = allPaths.get(i).get(allPaths.get(i).size() - 1);
+					if(!closestAtoms.contains(checkAtom)) closestAtoms.add(checkAtom);
+				}				
+				length++;
+			}
+		}
+		return closestAtoms;
+	}
 	/**
 	 * This function will find the closest atoms list based containing "numAtoms" many atoms on the given atomDisMap
 	 * @param atomDisMap
 	 * @return
 	 */
-	public static ArrayList<IAtom> getCloesestAtomListInMap(HashMap<IAtom, Double> atomDisMap, Integer numAtoms){
+	public ArrayList<IAtom> getCloesestAtomListInMap(HashMap<IAtom, Double> atomDisMap, Integer numAtoms){
 		ArrayList<IAtom> resultList = new ArrayList<>();
 		Integer counter = 0;
 		while(!atomDisMap.keySet().isEmpty() && counter < numAtoms){
@@ -79,7 +107,7 @@ public class DistanceRelatedFunciton {
 	 * @param atomDisMap
 	 * @return
 	 */
-	public static IAtom getClosestAtom(HashMap<IAtom, Double> atomDisMap){
+	public IAtom getClosestAtom(HashMap<IAtom, Double> atomDisMap){
 		Double minDis = Double.MAX_VALUE;
 		IAtom closestAtom = null;
 		for(IAtom oneAtom : atomDisMap.keySet()){
@@ -97,7 +125,7 @@ public class DistanceRelatedFunciton {
 	 * @param atom_two
 	 * @return
 	 */
-	public static Double calculateDistance(IAtom atom_one, IAtom atom_two){
+	public Double calculateDistance(IAtom atom_one, IAtom atom_two){
 		Point3d atomOneCoor = atom_one.getPoint3d();
 		Point3d atomTwoCoor = atom_two.getPoint3d();
 		Double dis = Math.sqrt((atomOneCoor.x - atomTwoCoor.x)*(atomOneCoor.x - atomTwoCoor.x) + 
@@ -106,4 +134,5 @@ public class DistanceRelatedFunciton {
 		return dis;
 		
 	}
+
 }

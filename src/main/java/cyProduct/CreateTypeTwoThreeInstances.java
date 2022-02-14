@@ -45,6 +45,7 @@ public class CreateTypeTwoThreeInstances {
 	public int cypIdx, depth;
 	String titleLine;
 	ArrayList<String> attributes;
+	GenerateAtomFeatures_new gaf_new = new GenerateAtomFeatures_new();
 	public CreateTypeTwoThreeInstances(String cyp, ArrayList<String> attributes,int depth) throws Exception{
 		loadCypIdx(cyp);
 		this.depth = depth;
@@ -130,7 +131,7 @@ public class CreateTypeTwoThreeInstances {
 				Integer it = Integer.parseInt(tt);
 				oneInstance.setValue(oneAtt, db);
 				oneInstance.setValue(oneAtt, it);
-				System.out.println("gg");
+				//System.out.println("gg");
 			}
 		}		
 		return oneInstance;
@@ -274,9 +275,9 @@ public class CreateTypeTwoThreeInstances {
 			ArrayList<String[]> boms = getBoMs(molecule);
 			String bomLabels= realBoMLabels(boms, molecule, oneAtom);
 			//If it's a not an Oxygen atom and has more than one Hydrogen atoms attached.
-			String atomType_Feature = GenerateAtomFeatures_new.generateAtomType(molecule, oneAtom);
-			String atomHydrogenCount = GenerateAtomFeatures_new.generateHydrogenBondDescriptor(molecule,oneAtom);//CH,CH2,CH3, etc
-			String[] atomicDescriptorFeatures = GenerateAtomFeatures_new.generateAtomDescriptorFeatures(molecule,oneAtom); // Atomic Features for left Atom	
+			String atomType_Feature = this.gaf_new.generateAtomType(molecule, oneAtom);
+			String atomHydrogenCount = this.gaf_new.generateHydrogenBondDescriptor(molecule,oneAtom);//CH,CH2,CH3, etc
+			String[] atomicDescriptorFeatures = this.gaf_new.generateAtomDescriptorFeatures(molecule,oneAtom); // Atomic Features for left Atom	
 			String atomicDescriptorFeaturesString = Utilities.convertListToString(atomicDescriptorFeatures);
 			String atomEnvironmentDepth_1 = generateEnviromentFeatures(molecule, oneAtom, 1);
 			String atomEnvironmentDepth_2 = generateEnviromentFeatures(molecule, oneAtom, 2);
@@ -284,8 +285,8 @@ public class CreateTypeTwoThreeInstances {
 			String atomEnvironmentDepth_4 = generateEnviromentFeatures(molecule, oneAtom, 4);
 
 			//Here we use depth as the numClosestAtoms.
-			String atomClosestAtomFP = GenerateAtomFeatures_new.generateClosestAtomsFPs(molecule, oneAtom, depth);
-			String atomClosestAtomType = GenerateAtomFeatures_new.generateClosestAtomsAtomTypes(molecule, oneAtom, depth);
+			String atomClosestAtomFP = this.gaf_new.generateClosestAtomsFPs(molecule, oneAtom, depth);
+			String atomClosestAtomType = this.gaf_new.generateClosestAtomsAtomTypes(molecule, oneAtom, depth);
 
 			/**
 			 * generateAtomFingerPrints
@@ -370,17 +371,17 @@ public class CreateTypeTwoThreeInstances {
 			ArrayList<String[]> boms = getBoMs(molecule);
 			String bomLabels= realBoMLabels(boms, molecule, oneAtom);
 			//If it's a not an Oxygen atom and has more than one Hydrogen atoms attached.
-			String atomType_Feature = GenerateAtomFeatures_new.generateAtomType(molecule, oneAtom);
-			String atomHydrogenCount = GenerateAtomFeatures_new.generateHydrogenBondDescriptor(molecule,oneAtom);//CH,CH2,CH3, etc
-			String[] atomicDescriptorFeatures = GenerateAtomFeatures_new.generateAtomDescriptorFeatures(molecule,oneAtom); // Atomic Features for left Atom	
+			String atomType_Feature = this.gaf_new.generateAtomType(molecule, oneAtom);
+			String atomHydrogenCount = this.gaf_new.generateHydrogenBondDescriptor(molecule,oneAtom);//CH,CH2,CH3, etc
+			String[] atomicDescriptorFeatures = this.gaf_new.generateAtomDescriptorFeatures(molecule,oneAtom); // Atomic Features for left Atom	
 			String atomicDescriptorFeaturesString = Utilities.convertListToString(atomicDescriptorFeatures);
 			String atomEnvironmentDepth_1 = generateEnviromentFeatures(molecule, oneAtom, 1);
 			String atomEnvironmentDepth_2 = generateEnviromentFeatures(molecule, oneAtom, 2);
 			String atomEnvironmentDepth_3 = generateEnviromentFeatures(molecule, oneAtom, 3);
 			String atomEnvironmentDepth_4 = generateEnviromentFeatures(molecule, oneAtom, 4);
 			//Here we use depth as the numClosestAtoms.
-			String atomClosestAtomFP = GenerateAtomFeatures_new.generateClosestAtomsFPs(molecule, oneAtom, depth);
-			String atomClosestAtomType = GenerateAtomFeatures_new.generateClosestAtomsAtomTypes(molecule, oneAtom, depth);
+			String atomClosestAtomFP = this.gaf_new.generateClosestAtomsFPs(molecule, oneAtom, depth);
+			String atomClosestAtomType = this.gaf_new.generateClosestAtomsAtomTypes(molecule, oneAtom, depth);
 			/**
 			 * generateAtomFingerPrints
 			 */
@@ -565,7 +566,7 @@ public class CreateTypeTwoThreeInstances {
 			IAtom oneAtom = molecule.getAtom(i);
 			Integer uniqueID = oneAtom.getProperty("UniqueID");
 			if(!resultMap.containsKey(uniqueID)){
-				String fp = GenerateAtomFeatures_new.generateAtomFingeprint(molecule,oneAtom);
+				String fp = this.gaf_new.generateAtomFingeprint(molecule,oneAtom);
 				resultMap.put(uniqueID, fp);
 			}
 		

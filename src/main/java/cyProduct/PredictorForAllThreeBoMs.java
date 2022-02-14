@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import biotransformerapi.BioTransformerAPI;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.inchi.InChIGenerator;
 import org.openscience.cdk.inchi.InChIGeneratorFactory;
@@ -26,7 +25,7 @@ import org.openscience.cdk.smiles.SmilesGenerator;
 import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
-//import reactantpredictor.BioTransformerAPIs;
+import biotransformerapi.BioTransformerAPI;
 import utils.MoleculeExplorer;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
@@ -99,7 +98,7 @@ public class PredictorForAllThreeBoMs {
 	public ArrayList<MoleResultPair> makePrediction(IAtomContainerSet molecules, Integer type) throws Exception{
 		//FileWriter fw = new FileWriter(new File(outputPath));
 		//fw.write("Name,Bond,Pred,ProbBoM\n");		
-		ArrayList<MoleResultPair> predictedResultList = new ArrayList();
+		ArrayList<MoleResultPair> predictedResultList = new ArrayList<>();
 		for(int moleIdx = 0; moleIdx < molecules.getAtomContainerCount(); moleIdx++){			
 			IAtomContainer oneMole = molecules.getAtomContainer(moleIdx);
 			if(MoleculeExplorer.isInvalidCandidate(oneMole)){
@@ -107,7 +106,7 @@ public class PredictorForAllThreeBoMs {
 				//System.out.println("The molecule " + (moleIdx + 1) + "is not valid, so it is skipped");
 				continue;
 			}
-			ArrayList<String> resultStringList = new ArrayList();
+			ArrayList<String> resultStringList = new ArrayList<>();
 			String name = getMoleName(oneMole).replace(",", "_");
 			//System.out.println(name);
 			ArrayList<String> tempData;
@@ -277,7 +276,7 @@ public class PredictorForAllThreeBoMs {
 	 * @throws Exception
 	 */
 	public static ArrayList<ArrayList<IAtom>> getTypeOneBoMList(ArrayList<MoleResultPair> predResultList, IAtomContainer oneMole) throws Exception{
-		ArrayList<ArrayList<IAtom>> bomList = new ArrayList();
+		ArrayList<ArrayList<IAtom>> bomList = new ArrayList<>();
 		for(int i = 0; i < predResultList.size(); i++){
 			MoleResultPair oneResultPair = predResultList.get(i);
 			ArrayList<String> oneResultString = oneResultPair.getResult();
@@ -304,7 +303,7 @@ public class PredictorForAllThreeBoMs {
 						atom_first = oneMole.getAtom(bomIdx_right);
 						atom_second = oneMole.getAtom(bomIdx_left);
 					}
-					ArrayList<IAtom> one_typeOne_BoM = new ArrayList();
+					ArrayList<IAtom> one_typeOne_BoM = new ArrayList<>();
 					atom_first.setProperty("Score",prob_pos);
 					atom_second.setProperty("Score", prob_pos);
 					one_typeOne_BoM.add(atom_first);
@@ -323,7 +322,7 @@ public class PredictorForAllThreeBoMs {
 	 * @throws Exception
 	 */
 	public static ArrayList<IAtom> getTypeTwoBoMList(ArrayList<MoleResultPair> predResultList, IAtomContainer oneMole) throws Exception{		
-		ArrayList<IAtom> bomList = new ArrayList();
+		ArrayList<IAtom> bomList = new ArrayList<>();
 		for(int i = 0; i < predResultList.size(); i++){
 			MoleResultPair oneResultPair = predResultList.get(i);
 			ArrayList<String> oneResultString = oneResultPair.getResult();
@@ -351,7 +350,7 @@ public class PredictorForAllThreeBoMs {
 	 * @throws Exception
 	 */
 	public static ArrayList<IAtom> getTypeThreeBoMList(ArrayList<MoleResultPair> predResultList, IAtomContainer oneMole) throws Exception{
-		ArrayList<IAtom> bomList = new ArrayList();
+		ArrayList<IAtom> bomList = new ArrayList<>();
 		for(int i = 0; i < predResultList.size(); i++){
 			MoleResultPair oneResultPair = predResultList.get(i);
 			ArrayList<String> oneResultString = oneResultPair.getResult();
@@ -379,6 +378,15 @@ public class PredictorForAllThreeBoMs {
 	 */
 
 	public static void outputResultIAtomContainerSet(IAtomContainerSet predictedResult, String outSdfPath) throws Exception{
+		for(int i = 0; i < predictedResult.getAtomContainerCount(); i++){
+			IAtomContainer oneMetabolite = predictedResult.getAtomContainer(i);
+			if(oneMetabolite.getProperties().containsKey("BoMs")){
+				//Map<Object,Object>  properties = oneMetabolite.getProperties();
+				//properties.remove("BoMs");
+				oneMetabolite.removeProperty("BoMs");
+			}
+			
+		}
 		IAtomContainerSet resultMole = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 		SmilesParser sp = new SmilesParser(SilentChemObjectBuilder.getInstance());
 		SDFWriter sdfWriter = new SDFWriter(new FileOutputStream(outSdfPath));	

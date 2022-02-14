@@ -37,11 +37,12 @@ import utils.DistanceRelatedFunciton;
 
 
 public class GenerateAtomFeatures_new {
+	DistanceRelatedFunciton drf = new DistanceRelatedFunciton();
 	/**
 	 * definition for all the adopted SYBYL atom types chosen by us
 	 * 23 in total
 	 */
-	public static final String[] atomTypeLookupTable = { "C.1", "C.2", "C.3", "C.ar", "C.cat", "N.1",
+	public final String[] atomTypeLookupTable = { "C.1", "C.2", "C.3", "C.ar", "C.cat", "N.1",
 			"N.2", "N.3", "N.4", "N.ar", "N.am", "N.pl3", "O.2", "O.3", "O.co2", "S.2",
 			"S.3", "S.O", "S.O2", "P.3", "F", "Cl", "Br", "I" };
 	
@@ -54,8 +55,12 @@ public class GenerateAtomFeatures_new {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String generateClosestAtomsFPs(IAtomContainer molecule, IAtom oneAtom, Integer numClosestAtoms) throws Exception{
-		ArrayList<IAtom> closestAtoms = DistanceRelatedFunciton.getClosestAtomListInMolecule(molecule, oneAtom, numClosestAtoms);
+	public String generateClosestAtomsFPs(IAtomContainer molecule, IAtom oneAtom, Integer numClosestAtoms) throws Exception{
+		ArrayList<IAtom> closestAtoms;
+		if(oneAtom.getPoint3d() != null){
+			closestAtoms = this.drf.getClosestAtomListInMolecule_3D(molecule, oneAtom, numClosestAtoms);
+		}
+		else closestAtoms = this.drf.getClosestAtomListInMolecule_NoCoordinates(molecule, oneAtom, numClosestAtoms);
 		IAtomContainer mole = molecule;
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(mole);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(mole.getBuilder());		
@@ -105,8 +110,12 @@ public class GenerateAtomFeatures_new {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String generateClosestAtomsAtomTypes(IAtomContainer molecule, IAtom oneAtom, Integer numClosestAtoms) throws Exception{
-		ArrayList<IAtom> closestAtoms = DistanceRelatedFunciton.getClosestAtomListInMolecule(molecule, oneAtom, numClosestAtoms);
+	public String generateClosestAtomsAtomTypes(IAtomContainer molecule, IAtom oneAtom, Integer numClosestAtoms) throws Exception{
+		ArrayList<IAtom> closestAtoms;
+		if(oneAtom.getPoint3d() != null){
+			closestAtoms = this.drf.getClosestAtomListInMolecule_3D(molecule, oneAtom, numClosestAtoms);
+		}
+		else closestAtoms = this.drf.getClosestAtomListInMolecule_NoCoordinates(molecule, oneAtom, numClosestAtoms);
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
@@ -151,7 +160,7 @@ public class GenerateAtomFeatures_new {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String generateAtomFingeprint(IAtomContainer molecule, IAtom oneAtom) throws Exception {
+	public String generateAtomFingeprint(IAtomContainer molecule, IAtom oneAtom) throws Exception {
 		IAtomContainer mole = molecule;
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(mole);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(mole.getBuilder());		
@@ -202,7 +211,7 @@ public class GenerateAtomFeatures_new {
 	 * 
 	 * @throws CDKException
 	 */
-	public static String generateAtomType(IAtomContainer molecule, IAtom atom) throws CDKException {
+	public String generateAtomType(IAtomContainer molecule, IAtom atom) throws CDKException {
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
@@ -251,7 +260,7 @@ public class GenerateAtomFeatures_new {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	public static String[] generateAtomDescriptorFeatures(IAtomContainer molecule, IAtom oneAtom) throws CDKException, NoSuchAtomTypeException, ClassNotFoundException, IOException {
+	public String[] generateAtomDescriptorFeatures(IAtomContainer molecule, IAtom oneAtom) throws CDKException, NoSuchAtomTypeException, ClassNotFoundException, IOException {
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		AtomContainerManipulator.convertImplicitToExplicitHydrogens(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
@@ -307,7 +316,7 @@ public class GenerateAtomFeatures_new {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String generateHydrogenBondDescriptor(IAtomContainer molecule, IAtom oneAtom) throws Exception{
+	public String generateHydrogenBondDescriptor(IAtomContainer molecule, IAtom oneAtom) throws Exception{
 		IAtomContainer mole = molecule;
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(mole);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(mole.getBuilder());

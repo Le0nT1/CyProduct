@@ -164,24 +164,6 @@ public class GenerateMetabolite {
 		 return resonanceStructures;
 	}
 	/**
-	 * This function will take the two atoms of the <eta, eta> BoM.
-	 * 
-	 * Note that one type One bond connnects two atoms.
-	 * @param leftAtom
-	 * @param rightAtom
-	 * @return
-	 * @throws Exception
-	 */
-	public IAtomContainer predictMetabolite(IAtom leftAtom, IAtom rightAtom, IAtomContainer oneMole) throws Exception{
-		IAtomContainer copy = oneMole.clone();
-		IAtom leftCopy = copy.getAtom(oneMole.indexOf(leftAtom));
-		IAtom rightCopy = copy.getAtom(oneMole.indexOf(rightAtom));
-		IBond targetBond = copy.getBond(leftCopy, rightCopy);
-
-		
-		return null;
-	}
-	/**
 	 * This function will generate the hydroxylated metabolite for the input oneMole on the targetAtom (reactive site)
 	 * @param targetAtom
 	 * @param oneMole
@@ -218,6 +200,7 @@ public class GenerateMetabolite {
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 		properties.put("ReactionType", "Hydroxylation");
 		properties.put("Score", targetAtom.getProperty("Score"));
+		properties.put("BoMs", (targetAtom.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(targetAtom)));
 		metabolite.addProperties(properties);
 		IAtomContainerSet metabolites = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 		metabolites.addAtomContainer(metabolite);
@@ -330,6 +313,7 @@ public class GenerateMetabolite {
 		Map<Object,Object> properties = new HashMap<Object,Object>();//("ReactionType", "Oxidation");
 		properties.put("ReactionType", "Oxidation");
 		properties.put("Score", leftAtom.getProperty("Score"));
+		properties.put("BoMs", (leftAtom.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(leftAtom) + ";" + rightAtom.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(rightAtom)));
 		metabolite.addProperties(properties);
 		IAtomContainerSet metabolites = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 		metabolites.addAtomContainer(metabolite);
@@ -348,7 +332,7 @@ public class GenerateMetabolite {
 	 * @throws Exception
 	 */
 	public static IAtomContainerSet generateDeAlkylationMetabolite(IAtom leftAtom, IAtom rightAtom, IAtomContainer oneMole, String dealkylationType) throws Exception{
-		SmilesGenerator sg = new SmilesGenerator(SmiFlavor.Canonical);
+		//SmilesGenerator sg = new SmilesGenerator(SmiFlavor.Canonical);
 		IAtomContainer copy = oneMole.clone();		
 		IAtom leftCopy = UniqueIDFunctionSet.getAtomByUniqueID(UniqueIDFunctionSet.getUniqID(leftAtom), copy);
 		IAtom rightCopy = UniqueIDFunctionSet.getAtomByUniqueID(UniqueIDFunctionSet.getUniqID(rightAtom), copy);
@@ -402,6 +386,7 @@ public class GenerateMetabolite {
 			//Use the score of the typeOne BoM when both TypeOne and TypeTwo BoMs are included in one reaction
 			if(leftAtom.getSymbol().equalsIgnoreCase("C")) properties.put("Score", rightAtom.getProperty("Score"));
 			else properties.put("Score", leftAtom.getProperty("Score"));
+			properties.put("BoMs", (leftAtom.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(leftAtom) + ";" + rightAtom.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(rightAtom)));
 			metabolite.addProperties(properties);
 			metabolites.addAtomContainer(metabolite);
 		}				
@@ -632,7 +617,7 @@ public class GenerateMetabolite {
 		fragmentStructure.add(generateFragmentWithExplicitHydrogenForReactiveAtom(copy_atomTwo, copy));
 		fragmentStructure.add(generateFragmentWithExplicitHydrogenForReactiveAtom(copy_atomThree, copy));
 	
-		
+	
 		//System.out.println("SMILES of the reacive site(s) : " + sg.create(fragmentStructure));
 		String OCO_match_SMIRKS = "[H][#6;A:1]([#8;A:3])[#8;A:2]";
 		boolean matches = MergeFragments.matchSMIRKS(OCO_match_SMIRKS, fragmentStructure);
@@ -663,6 +648,9 @@ public class GenerateMetabolite {
 				properties.put("ReactionType", "SepcialDealkyaltion");
 				//Use the score of the typeOne BoM when both TypeOne and TypeTwo BoMs are included in one reaction
 				properties.put("Score", score);
+				properties.put("BoMs", (atom_carbon.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(atom_carbon) + ";" + 
+										atom_two.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(atom_two) + ";" +
+										atom_three.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(atom_three)));
 				metabolite.addProperties(properties);
 				AtomContainerManipulator.suppressHydrogens(metabolite);
 				metabolites.addAtomContainer(metabolite);
@@ -1289,6 +1277,7 @@ public class GenerateMetabolite {
 			if(leftCopy.getSymbol().equalsIgnoreCase("C")) properties.put("Score", rightCopy.getProperty("Score"));
 			else properties.put("Score", leftAtom.getProperty("Score"));
 			metabolite.addProperties(properties);
+			properties.put("BoMs", (leftAtom.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(leftAtom) + ";" + rightAtom.getSymbol() + "." + UniqueIDFunctionSet.getUniqID(rightAtom)));
 			metabolites.addAtomContainer(metabolite);
 		}
 		return metabolites;

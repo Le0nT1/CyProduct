@@ -17,10 +17,14 @@ import org.openscience.cdk.inchi.InChIGenerator;
 import org.openscience.cdk.inchi.InChIGeneratorFactory;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomContainerSet;
+import org.openscience.cdk.layout.StructureDiagramGenerator;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
+import org.openscience.cdk.smiles.SmiFlavor;
 import org.openscience.cdk.smiles.SmilesGenerator;
 import org.openscience.cdk.smiles.SmilesParser;
+import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
+import cyProduct.PredictionFunctions;
 import cyProduct.cyProductMain;
 //import reactantpredictor.utils.FileUtils;
 import utils.Utilities;
@@ -29,7 +33,8 @@ import utils.Validator;
 public class BioTransformerAPI implements BioTransformerAPIs {
 	public static SmilesParser	smiParser	= new SmilesParser(SilentChemObjectBuilder.getInstance());
 	public static SmilesGenerator smiGen 	= new SmilesGenerator().isomeric();
-
+	private static PredictionFunctions pf = new PredictionFunctions();
+	
 	@Override
 	public Object predict(LinkedHashMap<String, Object> parameters) throws Exception {
 		Validator validator = new Validator();
@@ -86,6 +91,12 @@ public class BioTransformerAPI implements BioTransformerAPIs {
 			IAtomContainerSet oneResult = runOnePrediction(molecules.getAtomContainer(i), enzymeNames, useCypReact, scoreThreshold);
 			results.add(oneResult);
 		}
+		results = removeUnnecessaryHydrolxylation(results);
+		for(int i = 0; i < results.getAtomContainerCount(); i++){
+			if(results.getAtomContainer(i).getProperties().containsKey("BoMs")){
+				results.getAtomContainer(i).removeProperty("BoMs");
+			}
+		}
 		return results;
 	}
 	/**
@@ -98,17 +109,23 @@ public class BioTransformerAPI implements BioTransformerAPIs {
 	 * @throws Exception
 	 */
 	public static IAtomContainerSet runOnePrediction(IAtomContainer molecule, ArrayList<String> enzymeNames, boolean useCypReact, Double scoreThreshold) throws Exception{
+		//SmilesGenerator sg = new SmilesGenerator(SmiFlavor.Canonical);
 		System.out.println("CyProduct Working");
 		InChIGeneratorFactory inchiFactory = InChIGeneratorFactory.getInstance();
 		IAtomContainerSet results = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
-		HashMap<String, IAtomContainer> existed = new HashMap();
+		HashMap<String, IAtomContainer> existed = new HashMap<>();
 		//ArrayList<String> checkExist = new ArrayList<>();
 		for(int i = 0; i < enzymeNames.size(); i++){
 			//ArrayList<IAtomContainer> results_enzyme = new ArrayList<>(); 
-			IAtomContainerSet metabolites = cyProductMain.makePrediction(molecule, enzymeNames.get(i), null, useCypReact);	
+			IAtomContainerSet metabolites = pf.makePrediction(molecule, enzymeNames.get(i), null, useCypReact);	
 			//System.out.println("CyProduct Prediction Done");
 			for(int j = 0; j < metabolites.getAtomContainerCount(); j++){
 				IAtomContainer oneMetabolite = metabolites.getAtomContainer(j);
+				AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(oneMetabolite);
+				//SmilesParser sp = new SmilesParser(DefaultChemObjectBuilder.getInstance());
+				//oneMetabolite = sp.parseSmiles(sg.create(oneMetabolite));
+				//System.out.println(sg.create(oneMetabolite));
+				
 				Double score_current = oneMetabolite.getProperty("Score");
 				
 				InChIGenerator inchiGen = inchiFactory.getInChIGenerator(oneMetabolite);
@@ -131,7 +148,7 @@ public class BioTransformerAPI implements BioTransformerAPIs {
 						storedMolecule.setProperty("Score", score_round);
 					}
 					String enzymeList = storedMolecule.getProperty("Enzyme");
-					enzymeList = enzymeList + " " + enzymeNames.get(i);
+					enzymeList = enzymeList + " " + "CYP" + enzymeNames.get(i);
 					storedMolecule.setProperty("Enzyme", enzymeList);
 				}
 			}
@@ -142,7 +159,47 @@ public class BioTransformerAPI implements BioTransformerAPIs {
 			//results.addAtomContainer(metabolite);
 			results.addAtomContainer(mole);
 		}
+		results = removeUnnecessaryHydrolxylation(results);
 		System.out.println("CyProduct Done");
 		return results;
+	}
+	/**
+	 * This function will check if the hydroxylation reaction is part of other reactions that dominate hydroxylation
+	 * If so, the hydroxylated metabolite is removed 
+	 * @param metabolites
+	 * @return
+	 * @throws Exception
+	 */
+	public static IAtomContainerSet removeUnnecessaryHydrolxylation(IAtomContainerSet metabolites) throws Exception{
+		IAtomContainerSet resultSet = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
+		IAtomContainerSet allHydroxylationSet = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
+		ArrayList<String> candidateHeteroAtomList = new ArrayList<>();
+		for(int i = 0; i < metabolites.getAtomContainerCount(); i++){
+			IAtomContainer oneMetabolite = metabolites.getAtomContainer(i);
+			String reactionType = oneMetabolite.getProperty("ReactionType");
+			if(reactionType.equals("Hydroxylation")){
+				allHydroxylationSet.addAtomContainer(oneMetabolite);
+			}
+			else{
+				resultSet.addAtomContainer(oneMetabolite);
+				if(oneMetabolite.getProperties().containsKey("BoMs")){
+					String boms = oneMetabolite.getProperty("BoMs");
+					String[] boms_list = boms.split(";");
+					for(int j = 0; j < boms_list.length; j++){
+						if(!candidateHeteroAtomList.contains(boms_list[j])) candidateHeteroAtomList.add(boms_list[j]);
+					}
+				}
+			}
+		}
+		for(int i = 0; i < allHydroxylationSet.getAtomContainerCount(); i++){
+			IAtomContainer oneHydroxylMetabolite = allHydroxylationSet.getAtomContainer(i);
+			String boms = oneHydroxylMetabolite.getProperty("BoMs");
+			if(!candidateHeteroAtomList.contains(boms)){
+				resultSet.addAtomContainer(oneHydroxylMetabolite);
+			}
+		}
+		return resultSet;
+		
+		
 	}
 }

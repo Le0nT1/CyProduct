@@ -16,20 +16,16 @@ import org.openscience.cdk.interfaces.IAtomType;
 import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
-import org.openscience.cdk.smiles.SmilesGenerator;
 import org.openscience.cdk.smiles.smarts.SMARTSQueryTool;
 import org.openscience.cdk.tools.CDKHydrogenAdder;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
-import features.GeneratePatterns;
-import weka.classifiers.trees.ht.LeafNode;
-
 public class GenerateBondFeatures_new {	
-
-	public static String generateCurrentBondAtomDescriptor(IAtomContainer molecule, IBond oneBond) throws Exception{
+	GenerateAtomFeatures_new gaf_new = new GenerateAtomFeatures_new();
+	public String generateCurrentBondAtomDescriptor(IAtomContainer molecule, IBond oneBond) throws Exception{
 		List<IAtom> atoms = reorderAtomsOfBond(molecule, oneBond);
-		String[] firstAtomDes = GenerateAtomFeatures_new.generateAtomDescriptorFeatures(molecule,atoms.get(0));
-		String[] secondAtomDes = GenerateAtomFeatures_new.generateAtomDescriptorFeatures(molecule,atoms.get(1));
+		String[] firstAtomDes = this.gaf_new.generateAtomDescriptorFeatures(molecule,atoms.get(0));
+		String[] secondAtomDes = this.gaf_new.generateAtomDescriptorFeatures(molecule,atoms.get(1));
 		String[] temp = new String[firstAtomDes.length + secondAtomDes.length];
 		for(int i = 0; i < firstAtomDes.length; i++){
 			temp[i] = firstAtomDes[i];
@@ -50,7 +46,7 @@ public class GenerateBondFeatures_new {
 	/**
 	 * Order the atom connected by bond using descriptors' value
 	 */
-	public static boolean leftFirst(String[] firstAtom, String[] secondAtom) throws Exception{
+	public boolean leftFirst(String[] firstAtom, String[] secondAtom) throws Exception{
 		boolean leftFirst = true;
 		for(int i = 0; i < firstAtom.length; i++){
 			if(Double.parseDouble(firstAtom[i]) == Double.parseDouble(secondAtom[i])){
@@ -74,7 +70,7 @@ public class GenerateBondFeatures_new {
 	 * @return a 24-tuple binary string. Each tuple is for a AtomType in the AtomTypeLookupTable. The value of every tuple is either "1" or "0".
 	 * @throws Exception 
 	 */
-	public static String generateCurrentBondAtomType(IAtomContainer molecule, IBond oneBond) throws Exception {
+	public String generateCurrentBondAtomType(IAtomContainer molecule, IBond oneBond) throws Exception {
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
@@ -128,7 +124,7 @@ public class GenerateBondFeatures_new {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String generateBondFingeprint(IAtomContainer molecule, IBond bond) throws Exception {
+	public String generateBondFingeprint(IAtomContainer molecule, IBond bond) throws Exception {
 		IAtomContainer mole = molecule;
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(mole);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(mole.getBuilder());		
@@ -189,7 +185,7 @@ public class GenerateBondFeatures_new {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<IAtom> reorderAtomsOfBond(IAtomContainer molecule, IBond oneBond) throws Exception{
+	public List<IAtom> reorderAtomsOfBond(IAtomContainer molecule, IBond oneBond) throws Exception{
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
@@ -230,8 +226,8 @@ public class GenerateBondFeatures_new {
 		*/
 		if(leftNumber == rightNumber){
 			if(length_left == length_right){
-				String[] firstAtomDes = GenerateAtomFeatures_new.generateAtomDescriptorFeatures(molecule,leftAtom);
-				String[] secondAtomDes = GenerateAtomFeatures_new.generateAtomDescriptorFeatures(molecule,rightAtom);
+				String[] firstAtomDes = this.gaf_new.generateAtomDescriptorFeatures(molecule,leftAtom);
+				String[] secondAtomDes = this.gaf_new.generateAtomDescriptorFeatures(molecule,rightAtom);
 				boolean leftFirst = leftFirst(firstAtomDes,secondAtomDes);
 				if(leftFirst){
 					reordered.add(leftAtom);
@@ -266,7 +262,7 @@ public class GenerateBondFeatures_new {
 	 * checkVisitedAtoms need to be reinitialize here
 	 * This function returns the length longest path
 	 */
-	public static int[] getLongestPath(IAtomContainer molecule, IBond oneBond) throws Exception{
+	public int[] getLongestPath(IAtomContainer molecule, IBond oneBond) throws Exception{
 		AtomContainerManipulator.percieveAtomTypesAndConfigureAtoms(molecule);
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(molecule.getBuilder());
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
@@ -307,7 +303,7 @@ public class GenerateBondFeatures_new {
 	 * @return
 	 * @throws Exception
 	 */
-	public static int findTotalConnected(IAtomContainer molecule, IAtom center,ArrayList<IAtom> checkVisitedAtoms) throws Exception{
+	public int findTotalConnected(IAtomContainer molecule, IAtom center,ArrayList<IAtom> checkVisitedAtoms) throws Exception{
 		int count = 0;
 		List<IAtom> neighbors = molecule.getConnectedAtomsList(center);
 		for(int i = 0; i < neighbors.size(); i++){
