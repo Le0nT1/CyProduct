@@ -736,7 +736,7 @@ public class Utilities {
 	public static IAtomContainerSet removeDuplicates(IAtomContainerSet molecules) throws Exception{
 		IAtomContainerSet resultSet = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 		SmilesGenerator sg = new SmilesGenerator(SmiFlavor.Canonical);
-		ArrayList<String> smilesSet = new ArrayList();
+		ArrayList<String> smilesSet = new ArrayList<>();
 		String currentSmiles;
 		for(int i = 0; i < molecules.getAtomContainerCount(); i++){
 			currentSmiles = sg.create(molecules.getAtomContainer(i));

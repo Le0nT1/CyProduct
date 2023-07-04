@@ -9,7 +9,7 @@ The QueryMolecule can be either a SMILES string or the path to a sdf file. Note 
 The enzymeList is the list of CYP450 enzymes you want to run CyProduct on. If the enzyme list contains more than one enzyme, CyProduct will predict the metabolites for all of them. For example, if the input enzyme list is 1A2,3A4, then metabolites predicted are catalyzed by either 1A2 or 3A4 or both of them.
 The OutputFoldPath is the path to the folder where you want to store the predicted results.
 One example of running the tool in the commandline is, you can run it as:
-java -jar CyProduct.jar SMILES=CC(=O)Nc1ccc(O)cc1 1A2,2A6,2B6,2C8,2C9,2C19,2D6,2E1,3A4 E:\Users\cyproduct\
+java -jar CyProduct.jar CC(=O)Nc1ccc(O)cc1 1A2,2A6,2B6,2C8,2C9,2C19,2D6,2E1,3A4 E:\Users\cyproduct\
 
 Note that there is a class called BioTransformerAPI in the jar file. It provides two static functions that take one molecule (or molecules), a list of cyp450 enzymes and a boolean variable useCypReact as input, and predict the corresponding metabolites. Note that if the useCypReact is set as false, then the CypReact filter module will be disabled. The user can call those two static functions directly when they want to use CyProduct in their own tool/software.
 

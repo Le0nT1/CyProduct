@@ -22,7 +22,7 @@ import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
 import ambit2.smarts.SMIRKSManager;
 import ambit2.smarts.SMIRKSReaction;
-import cyProduct.UniqueIDFunctionSet;
+import cyProduct.predictionhelpers.UniqueIDFunctionSet;
 
 public class MergeFragments {
 	/**
@@ -109,7 +109,7 @@ public class MergeFragments {
 		CDKHydrogenAdder adder = CDKHydrogenAdder.getInstance(SilentChemObjectBuilder.getInstance());
 		adder.addImplicitHydrogens(fragmentStructure);
 		AtomContainerManipulator.suppressHydrogens(fragmentStructure);
-		System.out.println(sg.create(fragmentStructure));
+		//System.out.println(sg.create(fragmentStructure));
 		return fragmentStructure;
 		
 	}

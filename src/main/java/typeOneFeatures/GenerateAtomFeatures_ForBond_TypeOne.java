@@ -38,7 +38,7 @@ public class GenerateAtomFeatures_ForBond_TypeOne {
 		Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
 		aromaticity.apply(molecule);	
 		adder.addImplicitHydrogens(molecule);
-		
+		AtomContainerManipulator.convertImplicitToExplicitHydrogens(molecule);
 		
 		AtomDegreeDescriptor degree = new AtomDegreeDescriptor();
 		AtomHybridizationDescriptor hy = new AtomHybridizationDescriptor();
@@ -72,8 +72,9 @@ public class GenerateAtomFeatures_ForBond_TypeOne {
 		DescriptorValue se = sen.calculate(oneAtom, molecule);
 		atomicFeatures[7] = se.getValue().toString();
 		//System.out.println(res[7]);
-		DescriptorValue sp = spc.calculate(oneAtom, molecule);
-		atomicFeatures[8] = sp.getValue().toString();
+		//DescriptorValue sp = spc.calculate(oneAtom, molecule);
+		//atomicFeatures[8] = sp.getValue().toString();
+		atomicFeatures[8] = atomicFeatures[6];
 		Integer atomIdx = molecule.indexOf(oneAtom);
 		AtomContainerManipulator.suppressHydrogens(molecule);
 		Double asa, full_asa;
@@ -85,7 +86,7 @@ public class GenerateAtomFeatures_ForBond_TypeOne {
 		}catch(Exception no3DException){
 			asa = 0.0;
 			full_asa = 0.0;
-			System.out.println("Warning: the input molecule does not have 3D coordinates. The area ratios of atoms are set as -1.0");
+			//System.out.println("Warning: the input molecule does not have 3D coordinates. The area ratios of atoms are set as -1.0");
 		}
 		if(full_asa < 0.0001){
 			atomicFeatures[9] = Double.toString(-1.0);
@@ -98,9 +99,11 @@ public class GenerateAtomFeatures_ForBond_TypeOne {
 		}
 		for(int i = 0; i < atomicFeatures.length; i++){
 			if(atomicFeatures[i].equals("NaN")){
+				AtomContainerManipulator.suppressHydrogens(molecule);
 				throw new CDKException("PartialTChargeMMFF94Descriptor is not valid for molecule" + molecule.getProperties().get("cdk:Title") + "," + oneAtom.getAtomTypeName());
 			}
 		}
+		AtomContainerManipulator.suppressHydrogens(molecule);
 		return atomicFeatures;
 	}
 	

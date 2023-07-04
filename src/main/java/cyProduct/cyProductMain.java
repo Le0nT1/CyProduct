@@ -19,7 +19,9 @@ import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.tools.CDKHydrogenAdder;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
-import biotransformerapicyproduct.BioTransformerAPI;
+import biotransformerapicyproduct.BioTransformerAPI_cyproduct;
+import cyProduct.predictionhelpers.PredictionFunctions;
+import cyProduct.predictionhelpers.PredictorForAllThreeBoMs;
 import utils.ReadMolecules;
 
 public class cyProductMain {
@@ -31,6 +33,7 @@ public class cyProductMain {
 	//public biotransformerapicyproduct.BioTransformerAPI biotransformeAPI = new biotransformerapicyproduct.BioTransformerAPI();
 	
 	public static void main(String[] args) throws Exception{
+		long start=System.currentTimeMillis();
 		if(args.length != 3) {
 			throw new Exception("CyProduct: Input arguemtns don't match: queriedCompund, cyp450enzyme and outputPath");
 			//return;
@@ -53,18 +56,15 @@ public class cyProductMain {
 		InChIGeneratorFactory inchiFactory = InChIGeneratorFactory.getInstance();
 		IAtomContainerSet inputMoles = cyProduct.readSMILES(inputPath);
 		if(inputMoles == null){
-			inputMoles = cyProduct.readMolecule(inputPath);
+			try {
+				inputMoles = cyProduct.readMolecule(inputPath);
+			}catch (Exception e) {
+				System.out.println("The input molcule cannot be processed.");
+				return;
+			}
 		}
 		for(int i = 0; i < inputMoles.getAtomContainerCount(); i++){
 			IAtomContainer oneMole = inputMoles.getAtomContainer(i);
-//			if(!oneMole.getProperty("cdk:Title").equals("(R)-mianserin_ 8-hydroxy")) continue;
-//			if(!oneMole.getProperty("MolName").equals("Monodemethylated_mifepristone")) continue;
-//			if(!oneMole.getProperty("NAME").equals("Benzo[a]pyrene")) continue;
-//			boolean skip = true;
-//			if(oneMole.getProperty("NAME").equals("Ondansetron")){
-//				skip = false;
-//			}
-//			if(skip) continue;
 			String outputPath;
 			if(oneMole.getProperty("cdk:Title") != null){
 				outputPath = outputPathFolder + "\\" + oneMole.getProperty("cdk:Title") + ".sdf";
@@ -79,12 +79,13 @@ public class cyProductMain {
 			}
 			if(!enzymeList.isEmpty() && enzymeList != null) cyProduct.makePredictionForEnzymeList(oneMole, enzymeList, outputPath, useCypReact);
 			else{
-				PredictionFunctions pf = new PredictionFunctions();
+				PredictionFunctions pf = new PredictionFunctions(oneMole);
 				pf.makePrediction(oneMole, enzyme, outputPath, useCypReact);
 			}
 		}
-		
-	}
+		long end =System.currentTimeMillis();
+		System.out.println("Total time cost: " + (end - start));
+	} 
 	
 	public IAtomContainerSet readMolecule(String inputPath) throws Exception{
 		return ReadMolecules.extractMoleculesFromFile(inputPath);
@@ -107,15 +108,17 @@ public class cyProductMain {
 			Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
 			aromaticity.apply(oneMole);
 			adder.addImplicitHydrogens(oneMole);
-			IChemObjectBuilder builder_1 = SilentChemObjectBuilder.getInstance();
-			ModelBuilder3D mb3d = ModelBuilder3D.getInstance(builder_1);
-			IAtomContainer oneMolecule = mb3d.generate3DCoordinates(oneMole, false);
+			//IChemObjectBuilder builder_1 = SilentChemObjectBuilder.getInstance();
+			//ModelBuilder3D mb3d = ModelBuilder3D.getInstance(builder_1);
+			//IAtomContainer oneMolecule = mb3d.generate3DCoordinates(oneMole, false);
 //			StructureDiagramGenerator sdg = new StructureDiagramGenerator();
 //			sdg.setMolecule(mol);
 //			sdg.generateCoordinates();
 //			IAtomContainer oneMolecule = sdg.getMolecule();
-			AtomContainerManipulator.suppressHydrogens(oneMolecule);
-			molecules.addAtomContainer(oneMolecule);
+			//AtomContainerManipulator.suppressHydrogens(oneMolecule);
+			//molecules.addAtomContainer(oneMolecule);
+			AtomContainerManipulator.suppressHydrogens(oneMole);
+			molecules.addAtomContainer(oneMole);
 			return molecules;
 		}catch(Exception e){
 			return null;
@@ -133,10 +136,6 @@ public class cyProductMain {
 			IChemObjectBuilder builder_1 = SilentChemObjectBuilder.getInstance();
 			ModelBuilder3D mb3d = ModelBuilder3D.getInstance(builder_1);
 			IAtomContainer oneMolecule = mb3d.generate3DCoordinates(oneMole, false);
-//			StructureDiagramGenerator sdg = new StructureDiagramGenerator();
-//			sdg.setMolecule(mol);
-//			sdg.generateCoordinates();
-//			IAtomContainer oneMolecule = sdg.getMolecule();
 			AtomContainerManipulator.suppressHydrogens(oneMolecule);
 			return oneMolecule;
 		}catch(Exception e){
@@ -145,9 +144,11 @@ public class cyProductMain {
 	}
 	
 	public IAtomContainerSet makePredictionForEnzymeList(IAtomContainer oneMole, ArrayList<String> cypList, String outputPath, boolean useCypReact) throws Exception{
+		BioTransformerAPI_cyproduct cypProduct = new BioTransformerAPI_cyproduct();
+		PredictorForAllThreeBoMs common_usage_PredictorForAllThreeBoMs = new PredictorForAllThreeBoMs();
 		//We don't use score in this tool
-		IAtomContainerSet results = BioTransformerAPI.runOnePrediction(oneMole, cypList, useCypReact,0.0);
-		if(outputPath!=null) PredictorForAllThreeBoMs.outputResultIAtomContainerSet(results, outputPath);
+		IAtomContainerSet results = cypProduct.runOnePrediction(oneMole, cypList, useCypReact,0.0);
+		if(outputPath!=null) common_usage_PredictorForAllThreeBoMs.outputResultIAtomContainerSet(results, outputPath);
 		return results;
 		
 	}

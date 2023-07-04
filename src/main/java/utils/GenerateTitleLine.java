@@ -1,7 +1,7 @@
 package utils;
 
-import features.FingerPrintQueries_new;
-import features.GenerateNeighborFeatures_new;
+import otherFeatures.FingerPrintQueries_new;
+import otherFeatures.GenerateNeighborFeatures_new;
 
 public class GenerateTitleLine {
 	int depth_neighborAtomType;

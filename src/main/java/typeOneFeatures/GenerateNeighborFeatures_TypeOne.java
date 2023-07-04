@@ -94,23 +94,21 @@ public class GenerateNeighborFeatures_TypeOne {
 		for(int i = 0; i < neighborAtoms.size(); i++){
 			IAtom oneAtom = neighborAtoms.get(i);
 			IAtomType atomType = typeMatcher.findMatchingAtomType(molecule, oneAtom); 
-			String type = atomType.getAtomTypeName();
+			String type = oneAtom.getSymbol();
+			try {
+				type = atomType.getAtomTypeName();
+			}catch (Exception e) {
+				
+			}
 			String roughType;
 			if(type.equalsIgnoreCase("Any")){
 				type = oneAtom.getSymbol();
 				roughType = type;
 			}
 			else roughType = getConvertType(type);
-			
-			String[] newValue = GenerateAtomFeatures_ForBond_TypeOne.generateAtomDescriptorFeatures(molecule, oneAtom);
+			String[] newValue = GenerateAtomFeatures_ForBond_TypeOne.generateAtomDescriptorFeatures(molecule, oneAtom);			
 			String[] currentValue = atomTypeValueMap.get(roughType);
 			String[] updatedValue = updateTypeValueList(currentValue, newValue);
-//			for(int t = 0; t < updatedValue.length; t++){
-//				Double tt = Double.parseDouble(updatedValue[i]); 
-//				if(tt.isNaN()){
-//					System.out.println("Em...");
-//				}
-//			}
 			atomTypeValueMap.put(roughType, updatedValue);
 			
 			Integer counter = atomCounterMap.get(roughType);
@@ -183,20 +181,20 @@ public class GenerateNeighborFeatures_TypeOne {
 		}
 		for(int atomIdx = 0; atomIdx < neighborAtoms.size(); atomIdx++){
 			IAtom oneAtom = neighborAtoms.get(atomIdx);
-			
+			IAtomType atomType = typeMatcher.findMatchingAtomType(molecule, oneAtom); 
+			String type = oneAtom.getSymbol();
 			try{
-				IAtomType atomType = typeMatcher.findMatchingAtomType(molecule, oneAtom); 
-				String type = atomType.getAtomTypeName();	
-
-				for(int i = 0; i < atomTypeLookupTable.length; i++){
-					if(type.equalsIgnoreCase(atomTypeLookupTable[i])){
-						Integer current = Integer.parseInt(resultStrArray[i]);
-						resultStrArray[i] = Integer.toString(current+1);
-					}
-				}		
-			}catch (Exception e){
-				System.out.println();
+				type = atomType.getAtomTypeName();	
+			}catch (Exception e) {
+				
 			}
+			for(int i = 0; i < atomTypeLookupTable.length; i++){
+				if(type.equalsIgnoreCase(atomTypeLookupTable[i])){
+					Integer current = Integer.parseInt(resultStrArray[i]);
+					resultStrArray[i] = Integer.toString(current+1);
+				}
+			}		
+			
 		}
 
 		StringBuffer resultStrBuffer = new StringBuffer();
@@ -278,7 +276,7 @@ public class GenerateNeighborFeatures_TypeOne {
 	 */
 	public static String getConvertType(String atomType) throws Exception{
 		String result;
-		if(atomType.contains("C.")){
+		if(atomType.contains("C.") || atomType.equalsIgnoreCase("C")){
 			if(atomType.equals("C.ar")){
 				result = "C.ar";
 			}
@@ -286,7 +284,7 @@ public class GenerateNeighborFeatures_TypeOne {
 				result = "C";
 			}
 		}
-		else if(atomType.contains("N.")){
+		else if(atomType.contains("N.") || atomType.equalsIgnoreCase("N")){
 			if(atomType.equals("N.ar")){
 				result = "N.ar";
 			}
@@ -294,7 +292,7 @@ public class GenerateNeighborFeatures_TypeOne {
 				result = "N";
 			}
 		}
-		else if(atomType.contains("O.")){
+		else if(atomType.contains("O.") || atomType.equalsIgnoreCase("O")){
 			if(atomType.equals("O.co2")){
 				result = "O.co2";
 			}
@@ -303,7 +301,7 @@ public class GenerateNeighborFeatures_TypeOne {
 			}
 			
 		}
-		else if(atomType.contains("S.")){
+		else if(atomType.contains("S.") || atomType.equalsIgnoreCase("S")){
 			if(atomType.equals("S.O")){
 				result = "S.O";
 			}
@@ -314,7 +312,7 @@ public class GenerateNeighborFeatures_TypeOne {
 				result = "S";
 			}
 		}
-		else if(atomType.contains("P.")){
+		else if(atomType.contains("P.") || atomType.equalsIgnoreCase("P")){
 			result = "P";
 		}
 		else if(atomType.contains("F")){

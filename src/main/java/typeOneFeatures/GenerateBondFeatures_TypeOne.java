@@ -68,15 +68,25 @@ public class GenerateBondFeatures_TypeOne {
 			resultStrArray[j] = "0";
 		}
 		IAtomType atomType = typeMatcher.findMatchingAtomType(molecule, leftAtom); 
-		String type = atomType.getAtomTypeName();	
+		String type = leftAtom.getSymbol();
+		try{
+			type = atomType.getAtomTypeName();	
+		}catch (Exception e) {
+			
+		}
 		for(int i = 0; i < atomTypeLookupTable.length; i++){
 			if(type.equalsIgnoreCase(atomTypeLookupTable[i])){
 				resultStrArray[i] = "1";
 				break;
 			}
 		}
-		atomType = typeMatcher.findMatchingAtomType(molecule, rightAtom); 
-		type = atomType.getAtomTypeName();	
+		type = rightAtom.getSymbol();
+		try {
+			atomType = typeMatcher.findMatchingAtomType(molecule, rightAtom); 
+			type = atomType.getAtomTypeName();	
+		}catch(Exception e) {
+			
+		}
 		for(int i = 0; i < atomTypeLookupTable.length; i++){
 			if(type.equalsIgnoreCase(atomTypeLookupTable[i])){
 				resultStrArray[i] = "1";
