@@ -11,6 +11,7 @@ import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.forcefield.mmff.Mmff;
 import org.openscience.cdk.inchi.InChIGenerator;
 import org.openscience.cdk.inchi.InChIGeneratorFactory;
+import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomContainerSet;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
@@ -20,6 +21,7 @@ import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
 import cyProduct.predictionhelpers.PredictionFunctions;
+import utils.Utilities;
 //import reactantpredictor.utils.FileUtils;
 public class BioTransformerAPI_cyproduct {
 	public SmilesParser	smiParser	= new SmilesParser(SilentChemObjectBuilder.getInstance());
@@ -58,6 +60,7 @@ public class BioTransformerAPI_cyproduct {
 	 * @throws Exception
 	 */
 	public IAtomContainerSet runOnePrediction(IAtomContainer molecule, ArrayList<String> enzymeNames, boolean useCypReact, Double scoreThreshold) throws Exception{
+		Utilities.markOriginalSubsrateAtoms(molecule);
 		PredictionFunctions pf = new PredictionFunctions(molecule);
 		//System.out.println("CyProduct Working");
 		InChIGeneratorFactory inchiFactory = InChIGeneratorFactory.getInstance();
@@ -98,7 +101,8 @@ public class BioTransformerAPI_cyproduct {
 			}
 		}
 		for(IAtomContainer metabolite : existed.values()){
-			IAtomContainer mole = smiParser.parseSmiles(smiGen.create(metabolite));
+			//IAtomContainer mole = smiParser.parseSmiles(smiGen.create(metabolite));
+			IAtomContainer mole = Utilities.recreateMolecule(metabolite);
 			mole.setProperties(metabolite.getProperties());
 			//results.addAtomContainer(metabolite);
 			results.addAtomContainer(mole);
@@ -142,8 +146,6 @@ public class BioTransformerAPI_cyproduct {
 				resultSet.addAtomContainer(oneHydroxylMetabolite);
 			}
 		}
-		return resultSet;
-		
-		
+		return resultSet;		
 	}
 }

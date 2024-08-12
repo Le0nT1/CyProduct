@@ -108,15 +108,6 @@ public class cyProductMain {
 			Aromaticity aromaticity = new Aromaticity(ElectronDonation.cdk(), Cycles.all());
 			aromaticity.apply(oneMole);
 			adder.addImplicitHydrogens(oneMole);
-			//IChemObjectBuilder builder_1 = SilentChemObjectBuilder.getInstance();
-			//ModelBuilder3D mb3d = ModelBuilder3D.getInstance(builder_1);
-			//IAtomContainer oneMolecule = mb3d.generate3DCoordinates(oneMole, false);
-//			StructureDiagramGenerator sdg = new StructureDiagramGenerator();
-//			sdg.setMolecule(mol);
-//			sdg.generateCoordinates();
-//			IAtomContainer oneMolecule = sdg.getMolecule();
-			//AtomContainerManipulator.suppressHydrogens(oneMolecule);
-			//molecules.addAtomContainer(oneMolecule);
 			AtomContainerManipulator.suppressHydrogens(oneMole);
 			molecules.addAtomContainer(oneMole);
 			return molecules;

@@ -12,6 +12,7 @@ import org.openscience.cdk.aromaticity.Aromaticity;
 import org.openscience.cdk.aromaticity.ElectronDonation;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.graph.Cycles;
+import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IAtomContainerSet;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
@@ -21,6 +22,7 @@ import org.openscience.cdk.io.listener.PropertiesListener;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmiFlavor;
 import org.openscience.cdk.smiles.SmilesGenerator;
+import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.tools.CDKHydrogenAdder;
 import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 
@@ -38,6 +40,8 @@ import weka.filters.supervised.attribute.AttributeSelection;
 import weka.filters.unsupervised.attribute.Reorder;
 
 public class Utilities {
+	public static SmilesGenerator sg = new SmilesGenerator(SmiFlavor.Isomeric);
+	public static SmilesParser sp = new SmilesParser(DefaultChemObjectBuilder.getInstance());
 	/**
 	 * This function is used to select a subset of features by using information gain algorithm
 	 * Eg. Threshold = 50 means select the first 50 features whose information gain value is highest.
@@ -785,6 +789,25 @@ public class Utilities {
 		return containers;
 
 	}
-	
+	public static void markOriginalSubsrateAtoms(IAtomContainer substrate) {
+		for(int i = 0; i < substrate.getAtomCount(); i++) {
+			if(!substrate.getAtom(i).getSymbol().equalsIgnoreCase("H")) substrate.getAtom(i).setProperty("Original", true);
+		}
+	}
+	public static IAtomContainer recreateMolecule(IAtomContainer molecule) throws Exception {
+		int[] atom_indices_in_new = new int[molecule.getAtomCount()];
+		String smiles_new = sg.create(molecule, atom_indices_in_new);
+		IAtomContainer molecule_new = sp.parseSmiles(smiles_new);
+		//String smiles_new_new = sg.create(molecule_new);
+		//System.out.println("Indices in original molecule");
+		for(int i = 0; i < atom_indices_in_new.length; i++) {
+			IAtom atom_in_new = molecule_new.getAtom(atom_indices_in_new[i]);
+			IAtom atom_in_old = molecule.getAtom(i);				
+			if(atom_in_old.getProperty("Original")!=null) {
+				atom_in_new.setProperty("Original", atom_in_old.getProperty("Original"));
+			}
+		}
+		return molecule_new;
+	}
 	
 }

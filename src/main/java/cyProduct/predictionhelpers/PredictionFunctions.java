@@ -41,7 +41,7 @@ public class PredictionFunctions {
 			if(!isReactant(oneMole, cyp)){
 				IAtomContainerSet results = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 				if(outputPath!=null){
-					common_usage_PredictorForAllThreeBoMs.outputResultIAtomContainerSet(results, outputPath);
+					this.common_usage_PredictorForAllThreeBoMs.outputResultIAtomContainerSet(results, outputPath);
 				}
 				return results;
 			}
@@ -154,7 +154,8 @@ public class PredictionFunctions {
 		IAtomContainerSet results = DefaultChemObjectBuilder.getInstance().newInstance(IAtomContainerSet.class);
 		for(int i = 0; i < molecules.getAtomContainerCount(); i++){
 			if(validateMetabolites(substrate, molecules.getAtomContainer(i))){				
-				IAtomContainer temp = this.sp.parseSmiles(this.sg.create(molecules.getAtomContainer(i)));
+				//IAtomContainer temp = this.sp.parseSmiles(this.sg.create(molecules.getAtomContainer(i)));
+				IAtomContainer temp = Utilities.recreateMolecule(molecules.getAtomContainer(i));
 				temp.addProperties(molecules.getAtomContainer(i).getProperties());
 				results.addAtomContainer(temp);
 			}
